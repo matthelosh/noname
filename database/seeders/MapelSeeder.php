@@ -22,7 +22,7 @@ class MapelSeeder extends Seeder
                'database' => env('DB_DATABASE')
            ];
         // for($i=0;$i<count($files);$i++) {
-            $path = public_path('files/mapel.sql');
+            $path = public_path('files/mapels.sql');
             // $sql = file_get_contents($path);
             // DB::unprepared($sql);
             
