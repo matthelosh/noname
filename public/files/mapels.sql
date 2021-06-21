@@ -12,23 +12,23 @@
 
 
 -- DROP TABLE "kelas_mapel" ------------------------------------
-DROP TABLE IF EXISTS `kelas_mapel` CASCADE;
+-- DROP TABLE IF EXISTS `kelas_mapel` CASCADE;
 -- -------------------------------------------------------------
 
 
 -- CREATE TABLE "kelas_mapel" ----------------------------------
-CREATE TABLE `kelas_mapel`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`kelas_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`mapel_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	`kkm` Int( 11 ) NOT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 57;
+-- CREATE TABLE `kelas_mapel`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`kelas_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`mapel_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	`kkm` Int( 11 ) NOT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 57;
 -- -------------------------------------------------------------
 
 
@@ -103,25 +103,25 @@ COMMIT;
 
 
 -- DROP TABLE "mapels" -----------------------------------------
-DROP TABLE IF EXISTS `mapels` CASCADE;
+-- DROP TABLE IF EXISTS `mapels` CASCADE;
 -- -------------------------------------------------------------
 
 
 -- CREATE TABLE "mapels" ---------------------------------------
-CREATE TABLE `mapels`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`kode_mapel` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`nama_mapel` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`label` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`deskripsi` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	`kategori` Enum( 'wajib', 'mulok' ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 14;
+-- CREATE TABLE `mapels`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`kode_mapel` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`nama_mapel` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`label` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`deskripsi` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	`kategori` Enum( 'wajib', 'mulok' ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 14;
 -- -------------------------------------------------------------
 
 
@@ -152,26 +152,26 @@ COMMIT;
 
 
 -- DROP TABLE "prosems" ----------------------------------------
-DROP TABLE IF EXISTS `prosems` CASCADE;
+-- DROP TABLE IF EXISTS `prosems` CASCADE;
 -- -------------------------------------------------------------
 
 
 -- CREATE TABLE "prosems" --------------------------------------
-CREATE TABLE `prosems`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`kelas` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`semester` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`mapel_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`ppn` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`kd_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	`agama` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 628;
+-- CREATE TABLE `prosems`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`kelas` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`semester` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`mapel_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`ppn` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`kd_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	`agama` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 628;
 -- -------------------------------------------------------------
 
 
@@ -1947,23 +1947,23 @@ COMMIT;
 
 
 -- DROP TABLE "temas" ------------------------------------------
-DROP TABLE IF EXISTS `temas` CASCADE;
+-- DROP TABLE IF EXISTS `temas` CASCADE;
 -- -------------------------------------------------------------
 
 
 -- CREATE TABLE "temas" ----------------------------------------
-CREATE TABLE `temas`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`kode_tema` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`teks` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	`kelas_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 52;
+-- CREATE TABLE `temas`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`kode_tema` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`teks` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	`kelas_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 52;
 -- -------------------------------------------------------------
 
 
@@ -2035,23 +2035,23 @@ COMMIT;
 
 
 -- DROP TABLE "subtemas" ---------------------------------------
-DROP TABLE IF EXISTS `subtemas` CASCADE;
+-- DROP TABLE IF EXISTS `subtemas` CASCADE;
 -- -------------------------------------------------------------
 
 
 -- CREATE TABLE "subtemas" -------------------------------------
-CREATE TABLE `subtemas`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`kode_subtema` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`teks` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`tema_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 205;
+-- CREATE TABLE `subtemas`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`kode_subtema` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`teks` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`tema_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 205;
 -- -------------------------------------------------------------
 
 
