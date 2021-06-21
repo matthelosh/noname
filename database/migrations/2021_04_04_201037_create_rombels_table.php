@@ -20,9 +20,6 @@ class CreateRombelsTable extends Migration
             $table->string('kelas_id', 30);
             $table->string('guru_id');
             $table->string('periode_id');
-            $table->foreign('kelas_id')->nullable()->references('kode_kelas')->on('kelas')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('guru_id')->nullable()->references('nip')->on('gurus')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('periode_id')->nullable()->references('kode_periode')->on('periodes')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
