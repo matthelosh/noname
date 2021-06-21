@@ -14,6 +14,7 @@ class ChangeNipToUserid extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('nip', 'userid');
             $table->dropColumn('alamat', 'hp', 'jk', 'status','name');
         });
     }
