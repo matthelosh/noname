@@ -12,19 +12,19 @@
 
 
 -- CREATE TABLE "menus" ----------------------------------------
-CREATE TABLE `menus`( 
-	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
-	`parent_id` Int( 11 ) NOT NULL DEFAULT 0,
-	`url` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`icon` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`label` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-	`created_at` Timestamp NULL DEFAULT NULL,
-	`updated_at` Timestamp NULL DEFAULT NULL,
-	PRIMARY KEY ( `id` ) )
-CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-ENGINE = InnoDB
-AUTO_INCREMENT = 23;
+-- CREATE TABLE `menus`( 
+-- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
+-- 	`parent_id` Int( 11 ) NOT NULL DEFAULT 0,
+-- 	`url` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`icon` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`label` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+-- 	`created_at` Timestamp NULL DEFAULT NULL,
+-- 	`updated_at` Timestamp NULL DEFAULT NULL,
+-- 	PRIMARY KEY ( `id` ) )
+-- CHARACTER SET = utf8mb4
+-- COLLATE = utf8mb4_unicode_ci
+-- ENGINE = InnoDB
+-- AUTO_INCREMENT = 23;
 -- -------------------------------------------------------------
 
 
