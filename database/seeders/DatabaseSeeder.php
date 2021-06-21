@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                'host' => env('DB_HOST'),
                'database' => env('DB_DATABASE')
            ];
-           exec("mysql --user={$db['username']} --password={$db['password']} --host={$db['host']} --database {$db['database']} < $sql");
+           exec("mysql --user=".$db['username']." --password=".$db['password']." --host=".$db['host']." --database ".$db['database']." < ".$sql.");
         }
     }
 }
