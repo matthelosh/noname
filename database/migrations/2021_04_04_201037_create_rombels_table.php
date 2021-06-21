@@ -17,11 +17,11 @@ class CreateRombelsTable extends Migration
             $table->id();
             $table->string('kode_rombel', 60);
             $table->string('label', 30);
-            $table->string('kelas_id');
+            $table->string('kelas_id', 30);
             $table->string('guru_id');
             $table->string('periode_id');
             $table->foreign('kelas_id')->nullable()->references('kode_kelas')->on('kelas')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('guru_id')->nullable()->references('nip')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('guru_id')->nullable()->references('nip')->on('gurus')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('periode_id')->nullable()->references('kode_periode')->on('periodes')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
