@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             MapelSeeder::class
        ]);
+
+       DB::table('status')->update(['ok' => 1]);
     }
 }

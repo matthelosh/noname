@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +26,13 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 Route::get('/login', function(){
-    $cekuser = 'App\Models\User'::find(1);
-    if (!$cekuser) {
-        $nouser = 'Admin belum ada. Ketikkan perintah php artisan db:seed --class=UserSeeder';
+    $status = DB::table('status')->find(1);
+    if (!$status->ok) {
+        $msg = 'Jalankan Seeder untuk mengisi data utama.';
     } else {
-        $nouser=null;
+        $msg=null;
     }
-    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login', 'nouser' => $nouser]);
+    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login', 'nouser' => $msg]);
 })->name('login');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
