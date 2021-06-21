@@ -141,6 +141,13 @@ export default {
     },
     created() {
         document.title = "Login"
+        if (this.$page.props.nouser) {
+            this.snackbar = {
+                show: true,
+                color: 'error',
+                text: this.$page.props.nouser
+            }
+        }
     }
 }
 </script>

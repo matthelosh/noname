@@ -25,7 +25,13 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 Route::get('/login', function(){
-    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login']);
+    $cekuser = 'App\Models\User'::find(1);
+    if (!$cekuser) {
+        $nouser = 'Admin belum ada. Ketikkan perintah php artisan db:seed --class=UserSeeder';
+    } else {
+        $nouser=null;
+    }
+    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login', 'nouser' => $nouser]);
 })->name('login');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
