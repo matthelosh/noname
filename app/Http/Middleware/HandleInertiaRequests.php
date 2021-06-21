@@ -120,7 +120,7 @@ class HandleInertiaRequests extends Middleware
     {
         $sekolah = 'App\Models\Sekolah'::find(1);
         $sekolah = $sekolah ? $sekolah->with('ks') : null;
-        dd($sekolah);
+        // dd($sekolah);
         return $sekolah;
 
     }
