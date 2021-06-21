@@ -16,7 +16,6 @@ class AddFieldRoleToMenu extends Migration
         Schema::table('menus', function (Blueprint $table) {
             $table->string('role');
             $table->string('kode_role');
-            $table->string('label');
         });
     }
 
