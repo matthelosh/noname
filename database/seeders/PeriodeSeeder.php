@@ -23,11 +23,11 @@ class PeriodeSeeder extends Seeder
 
         foreach($periodes as $periode) {
             Periode::create([
-                'kode_periode' => $periode->kode_periode,
-                'tapel' => $periode->tapel,
-                'semester' => $periode->semester,
-                'deskripsi' => $periode->deskripsi,
-                'active' => $periode->active,
+                'kode_periode' => $periode['kode_periode'],
+                'tapel' => $periode['tapel'],
+                'semester' => $periode['semester'],
+                'deskripsi' => $periode['deskripsi'],
+                'active' => $periode['active'],
             ]);
         }
     }
