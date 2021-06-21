@@ -21,13 +21,14 @@ class DatabaseSeeder extends Seeder
             $path = public_path('files/'.$files[$i]);
             $sql = file_get_contents($path);
             // DB::unprepared($sql);
+            $db_bin = '/usr/bin/mysql';
             $db = [
                'username' => env('DB_USERNAME'),
                'password' => env('DB_PASSWORD'),
                'host' => env('DB_HOST'),
                'database' => env('DB_DATABASE')
            ];
-           exec("mysql --user=".$db['username']." --password=".$db['password']." --host=".$db['host']." --database ".$db['database']." < ".$sql.");
+           exec("{$db_bin} --user={$db['username']} --password={$db['password']} --host={$db['host']} --database {$db['database']} < $sql");
         }
     }
 }
