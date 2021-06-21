@@ -27,7 +27,7 @@
                         >
                            
                             <v-card-title>Login</v-card-title>
-                            <v-card-subtitle class="white--text">{{ $page.props.sekolah.nama_sekolah }}</v-card-subtitle>
+                            <v-card-subtitle class="white--text">{{ $page.props.sekolah ? $page.props.sekolah.nama_sekolah : 'Data Sekolah Kosong' }}</v-card-subtitle>
                              <div class="media"></div>
                         </v-img>
                         
