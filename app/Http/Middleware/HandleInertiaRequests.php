@@ -89,7 +89,7 @@ class HandleInertiaRequests extends Middleware
 
             })->first();
             // dd($roles->menus);
-            return $roles->menus;
+            return $roles ? $roles->menus : null;
         }
     }
 
