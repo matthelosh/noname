@@ -145,7 +145,7 @@ export default {
             this.snackbar = {
                 show: true,
                 color: 'error',
-                text: this.$page.props.nouser
+                errMsg: this.$page.props.nouser
             }
         }
     }
