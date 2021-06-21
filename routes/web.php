@@ -26,8 +26,8 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 Route::get('/login', function(){
-    $status = DB::table('status')->find(1);
-    if (!$status->ok) {
+    $status = DB::table('status')->first();
+    if (!$status) {
         $msg = 'Jalankan Seeder untuk mengisi data utama.';
     } else {
         $msg=null;

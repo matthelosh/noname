@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
             MapelSeeder::class
        ]);
 
-       DB::table('status')->update(['ok' => 1]);
+       DB::table('status')->insert(['ok' => 1]);
     }
 }

@@ -13,7 +13,7 @@ class CreateTableStatus extends Migration
      */
     public function up()
     {
-        Schema::create('table_status', function (Blueprint $table) {
+        Schema::create('status', function (Blueprint $table) {
             $table->id();
             $table->boolean('ok')->default(0);
             $table->timestamps();
