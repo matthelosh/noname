@@ -13,13 +13,13 @@
 					<tr>
 						<td>NISN/NIS</td><td>: {{ siswa.nisn }}/{{ siswa.nis }}</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td>Kelas</td><td>: {{ rapor.rombel ? rapor.rombel.label : 'Kelas' }}</td>
 					</tr>
 					
 					<tr>
 						<td>Semester</td><td>: {{ ($page.props.periode_aktif.semester == '1') ? 'I (GANJIL)' : 'II (GENAP)' }}</td>
-					</tr>
+					</tr> -->
 					<!-- <tr>
 						<td>Nama Sekolah</td><td>: {{ rapor.sekolah.nama_sekolah }}</td><td>Tahun Pelajaran</td><td>: {{ $page.props.periode_aktif.tapel }}</td>
 					</tr> -->

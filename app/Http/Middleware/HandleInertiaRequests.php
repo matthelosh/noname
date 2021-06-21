@@ -54,11 +54,11 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => fn () => $request->session()->get('message')
             ],
-            'role' => $request->user()->role,
+            'role' => $request->user() ? $request->user()->role : null,
             'periode' => $request->session()->get('periode'),
             'sekolah' => $this->sekolah(),
             'periode_aktif' => $this->periode_aktif($request->session()->get('periode')),
-            'rombel' => $this->rombel($request->user()->userid??null, $request->user()->role, $request->session()->get('periode')),
+            'rombel' => $this->rombel($request->user()->userid??null, $request->user() ? $request->user()->role : null, $request->session()->get('periode')),
             'mapel' => ($request->user() && $request->user()->role != 'admin' && $request->user()->role != 'wali') ? $this->mapel($request->user()->role) : null,
             'session' => (time() - $request->session()->get('lastActivityTime')) .' - ' . config('session.lifetime')
         ]);
@@ -105,7 +105,7 @@ class HandleInertiaRequests extends Middleware
             $user = $model::where('nip', $userid)->with('rombel', function($q) use ($periode) {
                 $q->where('periode_id', $periode);
             })->first();
-            $rombel = $user->rombel;
+            $rombel = $user ? $user->rombel : null;
         }
         return $rombel??null;
     }

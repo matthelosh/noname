@@ -14,7 +14,7 @@
 							<v-card-text>
 								<v-row>
 									<v-col cols="10">
-										<v-select v-model="selectedPeriode" :items="periodes" item-value="value" item-text="text" outlined rounded label="Periode" dense hide-details></v-select>
+										<v-select v-model="selectedPeriode" :items="periodes" item-value="value" item-text="text" outlined rounded label="Periode" dense hide-details @change="onChangedPeriode"></v-select>
 									</v-col>
 									<v-col cols="2">
 										<v-btn fab color="error" small @click="$emit('hide')"><v-icon>mdi-close</v-icon></v-btn>
@@ -105,42 +105,20 @@
 			teks: "Halo",
 			progress: false,
 			periodes: [],
-			selectedPeriode: ''
+			selectedPeriode: '',
+			selectedRombel: '',
 		}),
 		methods: {
-			print() {
-				const html = document.getElementById('print').innerHTML
-				let css = ''
-				for ( const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
-					css += node.outerHTML
-				}
-
-				const WinPrint = window.open('','', 'left=0,top=0,width=800,height=900, toolbar=0, scrollbars=0,status=0')
-				WinPrint.document.write(`<!DOCTYPE html>
-					<html>
-						<head>
-							<title>
-								Rapor ${this.selectedSiswa.nama}
-							</title>
-							${css}
-						</head>
-						<body>
-							${html}
-						</body>
-					<html>
-				`)
-
-				WinPrint.document.close()
-				WinPrint.focus()
-				WinPrint.print()
-				WinPrint.close()
-			},
-			onSiswaChanged(nisn){
+			onChangedPeriode(e){
+				// this.
+				var romb = this.$page.props.rombel.kode_rombel.split('-')
+				// alert(romb)
+				this.selectedRombel = e+'-'+romb[1]
 				 switch(this.tab){
-				 	case 2:
+				 	case 0:
 				 		this.getPTS()
 				 		break
-				 	case 3:
+				 	case 1:
 				 		this.getPAS()
 				 		break
 				 }
@@ -151,7 +129,7 @@
 					method: 'post',
 					url: '/dashboard/rapor/pts',
 					data: {
-						rombel: this.$page.props.rombel.kode_rombel,
+						rombel: this.rombel,
 						periode: this.selectedPeriode,
 						siswa_id: this.siswa
 					}
@@ -169,7 +147,7 @@
 					method: 'post',
 					url: '/dashboard/rapor/pas',
 					data: {
-						rombel: this.$page.props.rombel.kode_rombel,
+						rombel: this.rombel,
 						periode: this.selectedPeriode,
 						siswa_id: this.siswa
 					}
@@ -212,13 +190,8 @@
            
 		},
 		computed: {
-			// selectedSiswa() {
-			// 	let siswas =  this.dialog.siswas.filter( item => (item.nisn == this.siswa))
-			// 	return siswas[0]
-			// }
-			selectedRombel() {
-				return this.$page.props.rombel ? this.$page.props.rombel : this.$page.props.user.rombel
-
+			rombel() {
+				return this.selectedRombel ? this.selectedRombel : this.$page.props.rombel.kode_rombel
 			}
 		},
 		created() {

@@ -7,16 +7,17 @@
 			<div class="biodata section">
 				<table width="100%">
 					<tr>
-						<td>Nama Peserta Didik</td><td>: {{ siswa.nama }}</td>
+						<td>Nama</td><td>: {{ siswa.nama }}</td>
+					</tr>
+					
+					<tr>
+						<td>NISN/NIS</td><td>: {{ siswa.nisn }}/{{ siswa.nis }}</td>
 					</tr>
 					<tr>
 						<td>Kelas</td><td>: {{ rapor.rombel ? rapor.rombel.label : null }}</td>
 					</tr>
 					<tr>
-						<td>NISN/NIS</td><td>: {{ siswa.nisn }}/{{ siswa.nis }}</td>
-					</tr>
-					<tr>
-						<td>Semester</td><td>: {{ ($page.props.periode_aktif.semester == '1') ? 'I (GANJIL)' : 'II (GENAP)' }}</td>
+						<td>Semester</td><td>: {{ (rapor.rombel.periode_id.substr(-1) == '1') ? 'I (GANJIL)' : 'II (GENAP)' }}</td>
 					</tr>
 				</table>
 			</div>
@@ -47,8 +48,8 @@
 								<tr>
 									<th rowspan="2">No</th>
 									<th rowspan="2">Muatan Pelajaran</th>
-									<th colspan="3">Pengetahuan</th>
-									<th colspan="3">Keterampilan</th>
+									<th colspan="2">Pengetahuan</th>
+									<th colspan="2">Keterampilan</th>
 								</tr>
 								<tr>
 									<th>Nilai</th>
@@ -102,8 +103,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="e in rapor.ekskul">
-							<td class="p-5 text-center" width="3%" style="width:3%!important">{{ e ? e.id : '' }}</td><td class="p-5">{{ e ? e.ekskuls.label : '' }}</td><td class="p-5">{{ e ? e.ket : '' }}</td>
+						<tr v-for=" (e,index) in rapor.ekskul">
+							<td class="p-5 text-center" width="3%" style="width:3%!important">{{ e ? e.ekskuls.id : '' }}</td><td class="p-5">{{ e ? e.ekskuls.label : '' }}</td><td class="p-5">{{ e ? e.ket : '' }}</td>
 						</tr>
 					</tbody>
 				</table>
