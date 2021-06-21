@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             PeriodeSeeder::class,
             RoleSeeder::class,
+            MapelSeeder::class
        ]);
     }
 }
