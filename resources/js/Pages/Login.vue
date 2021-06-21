@@ -1,0 +1,164 @@
+<template lang="html">
+    <div id="app">
+    <v-app>
+        <v-container class="fill-height bg-body fluid" >
+            <v-row>
+                <v-col cols="12" class="d-sm-none d-flex justify-center">
+                     <img
+                    src="img/tutwuri.png"
+                    height="100"
+                    contain
+                    />
+                </v-col>
+                <v-col cols="12" sm="8" class="d-none d-sm-flex">
+                   <v-card width="100%">
+                        <v-card-text>
+                            <h1>SELAMAT DATANG !</h1>
+                        </v-card-text>
+                   </v-card>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-card  class="mx-auto ">
+                        <v-img 
+                            src="img/upacara.jpg"
+                            max-height="100"
+                            class="white--text align-end"
+                            gradient="to bottom left, #78967822, #5667fedd"
+                        >
+                           
+                            <v-card-title>Login</v-card-title>
+                            <v-card-subtitle class="white--text">{{ $page.props.sekolah.nama_sekolah }}</v-card-subtitle>
+                             <div class="media"></div>
+                        </v-img>
+                        
+                        <v-card-text>
+                            <v-form @submit="login">
+                                <v-text-field
+                                    solo
+                                    label="Username"
+                                    prepend-inner-icon="mdi-qrcode"
+                                    v-model="auth.username"
+                                    :error="salah"
+                                    required
+                                />
+                                <v-text-field 
+                                    solo
+                                    label="Password"
+                                    :type="password"
+                                    prepend-inner-icon="mdi-key"
+                                    v-model="auth.password"
+                                    :error="salah"
+                                    
+                                    required
+                                />
+
+                                <v-checkbox
+                                    @change="togglePassword"
+                                    label="Lihat Password"
+                                    />
+                                <v-row class="d-flex justify-center">
+                                    <v-btn
+                                        color="primary"
+                                        type="submit"
+                                        class="mx-auto"
+                                    >Login</v-btn>
+                                </v-row>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-snackbar
+            v-model="snackbar"
+            color="error"
+            bottom
+            vertical
+            right
+            multi-line
+        >
+            {{errMsg}}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                color="white"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+                >
+                Tutup
+                <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </template>
+        </v-snackbar>
+    </v-app>
+    </div>
+</template>
+
+<script>
+
+export default {
+    name: 'Login',
+    data: () => ({
+        auth: {
+
+        },
+        salah: false,
+        errMsg: '',
+        password: 'password',
+        snackbar: false
+    }),
+    methods: {
+        login(e){
+            e.preventDefault()
+            console.log(this.auth)
+            axios({
+                method: 'post',
+                url: '/auth/login',
+                data: this.auth
+            }).then(response => {
+                // alert(response.data.success)
+                console.log(response.data)
+                window.location.href = '/dashboard'
+            }).catch(err => {
+                console.log(err.response.data)
+                let old = err.response.data.old
+                Object.assign(this.auth, old)
+                this.salah = true
+                this.snackbar = true
+                this.errMsg = err.response.data.msg
+            })
+        },
+        togglePassword(val){
+            if ( val === true ) {
+                this.password = 'text'
+            } else {
+                this.password = 'password'
+            }
+        }
+    },
+    computed: {
+        
+    },
+    created() {
+        document.title = "Login"
+    }
+}
+</script>
+
+<style scoped>
+    #app {
+        background-image: linear-gradient(127deg, rgb(58, 40, 52), rgb(75, 35, 63));
+    }
+    .media {
+        position: absolute;
+        width:  100%;
+        height: 100%;
+        content:  '';
+        background: #98654366;
+    }
+    #app > div > div.container.fill-height.bg-body.fluid > div.row.d-sm-none > div > div.v-responsive__sizer {
+        padding-bottom:  0!important;
+        height: 0!important;
+        display: none;
+    }
+</style>
