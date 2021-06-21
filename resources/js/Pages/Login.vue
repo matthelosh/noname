@@ -142,11 +142,8 @@ export default {
     created() {
         document.title = "Login"
         if (this.$page.props.nouser) {
-            this.snackbar = {
-                show: true,
-                color: 'error',
-                errMsg: this.$page.props.nouser
-            }
+            this.snackbar = true
+            this.errMsg = this.$page.props.nouser
         }
     }
 }
