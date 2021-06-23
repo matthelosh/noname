@@ -12,6 +12,11 @@ class PageController extends Controller
         return Inertia::render('Home', ['page' => 'dashboard', 'page_title' => 'Dashboard']);
     }
 
+    public function guru(Request $request)
+    {
+        return Inertia::render('Guru', ['page' => 'guru', 'page_title' => 'Guru']);
+    }
+
     public function about() {
         $datas = Pemetaan::where([
             ['semester','=','1'],

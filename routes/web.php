@@ -49,6 +49,12 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::delete('/{id}', [ UserController::class, 'destroy'])->name('user.delete');	
     });
 
+    // Guru
+    Route::group(['prefix' => 'guru', 'middleware' => 'admin'], function() {
+        Route::get('/', [PageController::class, 'guru'])->name('dashboard.guru');
+        Route::post('/', [GuruController::class, 'index'])->name('guru.index');
+    });
+
     // Siswa
     Route::group(['prefix' => 'siswa'], function() {
         Route::get('/', [PageController::class, 'siswa'])->name('dashboard.siswa');
