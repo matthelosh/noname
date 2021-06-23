@@ -33,7 +33,7 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="5">
-                                        {{ disabledCount }} siswa punya akun
+                                        <span v-if="$page.props.user.role == 'admin'" >{{ disabledCount }} siswa punya akun</span>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-badge
@@ -48,13 +48,14 @@
                                                 Beri Akses Login
                                             </v-btn>
                                         </v-badge>
+                                        <v-btn v-if="$page.props.user.role == 'wali'" color="primary" rounded @click="cetakKartu">Cetak Kartu Siswa</v-btn>
                                     </v-col>
                                     <v-col cols="4">
                                          <v-text-field v-model="search" prepend-inner-icon="mdi-magnify" label="Cari .." outlined dense hide-details max-width="100" rounded></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
-                            <v-data-table :headers="sheaders" :items="siswas" :search="search" show-select v-model="selectedsiswas" @toggle-select-all="selectAllToggle"> 
+                            <v-data-table :headers="sheaders" :items="siswas" :search="search" :show-select="$page.props.user.role=='admin'" v-model="selectedsiswas" @toggle-select-all="selectAllToggle"> 
                                 <template v-slot:item.data-table-select="{ item, isSelected, select }">
                                     <v-simple-checkbox
                                         :value="isSelected"
@@ -151,6 +152,7 @@
         <modal-import-siswa v-if="importSiswa" :modal="importSiswa" @hide="importSiswa = false; getSiswas()"></modal-import-siswa>
         <confirm-dialog ref="confirm"></confirm-dialog>
         <ortu-siswa v-if="dialogortu.show" :modal="dialogortu" @hide="dialogortu.show = false"></ortu-siswa>
+        <kartu-siswa v-if="dialogKartu.show" :dialog="dialogKartu" @hide="dialogKartu.show = false"></kartu-siswa>
         <v-snackbar v-model="snackbar.show" :color="snackbar.color" top right multi-line>{{snackbar.text}}<template v-slot:action="{ attrs }">
         <v-btn
           text
@@ -173,12 +175,14 @@
     import Download from '../Plugins/Download'
     import ConfirmDialog from '../Components/Modals/ConfirmDialog'
     import OrtuSiswa from '../Components/Modals/OrtuSiswa'
+    import KartuSiswa from '../Components/Modals/KartuSiswa'
 // import CetakTable from '../Plugins/print';
     export default {
         name: 'Siswa',
-        components: { Layout, ModalSiswa, ModalImportSiswa, ConfirmDialog, OrtuSiswa },
+        components: { Layout, ModalSiswa, ModalImportSiswa, ConfirmDialog, OrtuSiswa, KartuSiswa },
         props: {page: String, page_title: String},
         data: () => ({
+            dialogKartu: {show: false},
             dialogortu: { show: false, siswa: {} },
             dialogSiswa: {
                 show: false, mode: 'create'
@@ -207,6 +211,10 @@
             selectedsiswas: []
         }),
         methods: {
+            cetakKartu() {
+                // alert('hi')
+                this.dialogKartu = { show: true, siswas: this.siswas }
+            },
             selectAllToggle(props) {
                 if ( this.selectedsiswas.length != props.items.length - this.disabledCount) {
                     this.selectedsiswas = []
@@ -271,8 +279,10 @@
                     res.data.siswas.forEach((siswa,index) => {
                         siswa.index = index+1
                         siswas.push(siswa)
-                        if(siswa.user.length > 0) {
-                            this.disabledCount += 1
+                        if(role == 'admin') {
+                            if(siswa.user.length > 0) {
+                                this.disabledCount += 1
+                            }
                         }
                     })
                     this.siswas = siswas

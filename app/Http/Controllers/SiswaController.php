@@ -21,7 +21,7 @@ class SiswaController extends Controller
                     ['guru_id', '=', $request->user()->userid],
                     ['periode_id', '=', $request->session()->get('periode')]
                 ])->first();
-                $siswas = Siswa::whereHas('rombels', function($q) use ($rombel){
+                $siswas = Siswa::whereHas('rombel', function($q) use ($rombel){
                     $q->where('rombel_id', $rombel->id);
                 })->with('ortu')->get();
                 // $siswas = $rombel->siswas;
@@ -43,7 +43,7 @@ class SiswaController extends Controller
             // $nonmembers = Siswa::whereDoesntHave('rombels', function($query) use ($rombel_id) {
             //     $query->where('rombel_id', $rombel_id);
             // })->get();
-            $nonmembers = Siswa::whereDoesntHave('rombels', function($q) use($periode) {
+            $nonmembers = Siswa::whereDoesntHave('rombel', function($q) use($periode) {
                 $q->where('periode_id', $periode);
             })->where('active', 1)->get();
             // dd($nonmembers); 
@@ -203,7 +203,7 @@ class SiswaController extends Controller
         
         try {
             $siswa = Siswa::find($id)->with('rombel')->first();
-            $siswa->rombels()->detach();
+            $siswa->rombel()->detach();
             Siswa::find($id)->delete();
             return response()->json(['success' => true, 'msg' => 'Data ' . $siswa->nama . ' dihapus.'], 200);
         } catch (\Exception $e) {

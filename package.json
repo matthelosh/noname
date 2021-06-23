@@ -26,8 +26,11 @@
         "file-saver": "^2.0.5",
         "fs": "0.0.1-security",
         "moment": "^2.29.1",
+        "qrious": "^4.0.2",
+        "v-qrcode": "^1.0.3",
         "vue": "^2.6.12",
         "vue-apexcharts": "^1.6.0",
+        "vue-qrious": "^1.6.0",
         "vuetify": "^2.4.6",
         "xlsx": "^0.16.9"
     }

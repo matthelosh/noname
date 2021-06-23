@@ -51,7 +51,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
 
     // Siswa
     Route::group(['prefix' => 'siswa'], function() {
-        Route::get('/', [PageController::class, 'siswa'])->name('dashboard.siswa')->middleware('admin');
+        Route::get('/', [PageController::class, 'siswa'])->name('dashboard.siswa');
         Route::post('/', [SiswaController::class, 'index'])->name('siswa.index');
         Route::post('/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware(['admin', 'guru']);
         Route::post('/import', [SiswaController::class, 'import'])->name('siswa.import');

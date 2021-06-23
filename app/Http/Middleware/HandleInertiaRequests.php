@@ -118,10 +118,10 @@ class HandleInertiaRequests extends Middleware
 
     public function sekolah()
     {
-        $sekolah = 'App\Models\Sekolah'::find(1);
-        $sekolah = $sekolah ? $sekolah->with('ks') : null;
+        $sekolah = 'App\Models\Sekolah'::with('ks')->first();
+        // $sekolah = $sekolah ? $sekolah->with('ks') : null;
         // dd($sekolah);
-        return $sekolah;
+        return $sekolah ?? null;
 
     }
 }

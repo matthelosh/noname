@@ -18,4 +18,9 @@ class Guru extends Model
     {
         return $this->hasOne('App\Models\Rombel', 'guru_id','nip');
     }
+
+    public function sekolah()
+    {
+        return $this->hasOne(Sekolah::class, 'ks', 'nip');
+    }
 }

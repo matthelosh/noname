@@ -14,7 +14,7 @@ class Sekolah extends Model
 
     public function ks()
     {
-        return $this->hasOne('App\Models\Guru', 'nip', 'ks');
+        return $this->belongsTo('App\Models\Guru', 'ks', 'nip');
     }
     public function ops()
     {
