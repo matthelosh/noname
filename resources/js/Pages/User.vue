@@ -12,22 +12,14 @@
                                 <span class="hidden-sm-and-down">Data</span> Pengguna
                             </v-toolbar-title>
                             <v-spacer></v-spacer>
-                                <v-btn ripple   text @click.stop="newUser">
-                                    <v-icon>mdi-account-plus</v-icon>
-                                    <span class="hidden-sm-and-down">Tambah</span>
-                                </v-btn>
-                                <v-btn ripple text @click.stop="importDialog">
-                                    <v-icon>mdi-account-multiple-plus</v-icon>
-                                    <span class="hidden-sm-and-down">Impor</span>
-                                </v-btn>
-                                
-                                <v-btn   ripple  text @click.stop="print">
+                                <v-btn  color="primary"  ripple rounded @click.stop="print">
                                     <v-icon>mdi-printer</v-icon>
                                     <span class="hidden-sm-and-down">
                                         Cetak
                                     </span>
                                 </v-btn>
-                                <v-btn   ripple text @click.stop="unduhData">
+                                &nbsp;
+                                <v-btn  rounded ripple color="success" @click.stop="unduhData">
                                     <v-icon>mdi-file-excel-outline</v-icon>
                                     <span class="hidden-sm-and-down">
                                         Unduh
@@ -45,10 +37,20 @@
                             >
                             <template v-slot:top>
                                 <v-row>
-                                    <v-col cols="12" sm="4">
-                                        
-                                    </v-col>
-                                    <v-col cols="12" sm="4">
+                                    <v-col cols="12" sm="8">
+                                        <v-badge
+                                                    :content="selectedusers.length"
+                                                    :value="selectedusers.length"
+                                                    color="success"
+                                                    overlap
+                                                  >
+                                                    <v-btn @click.stop="resetMany" dense color="warning" :disabled="(selectedusers.length < 1)" rounded>
+                                                        <v-icon>mdi-lock-reset</v-icon> 
+                                                        Reset Password
+                                                    </v-btn>
+                                                </v-badge>
+                                   <!--  </v-col>
+                                    <v-col cols="12" sm="4"> -->
                                         <v-badge
                                             :content="selectedusers.length"
                                             :value="selectedusers.length"
@@ -72,8 +74,16 @@
                                 </span>
                             </template>
                             <template v-slot:item.options="{item}">
-                                <v-icon small class="mr-2 warning--text" @click.stop="editItem(item)">mdi-pencil</v-icon>
-                                <v-icon small class="mr-2 error--text" @click.stop="deleteItem(item)">mdi-eraser</v-icon>
+                                <v-btn color="success" small rounded @click="editItem(item)">
+                                    <v-icon>mdi-pencil</v-icon>
+                                </v-btn>
+                                <v-btn color="error" small rounded @click="deleteItem(item)">
+                                    <v-icon>mdi-eraser</v-icon>
+                                </v-btn>
+                                <v-btn color="warning" small rounded @click="reset(item)">
+                                    <v-icon>mdi-lock-reset</v-icon>
+                                </v-btn>
+                                
                             </template>
                             </v-data-table>
                         </v-card-text>
@@ -153,11 +163,8 @@
                         <v-container fluid>
                         <v-row>
                             <v-col cols="12" sm="6">
-                                <v-text-field v-model="newuser.userid" :label="(newuser.level == 'siswa') ? 'NISN' :'NIP'" outlined dense hide-details clearable append-icon="mdi-barcode"></v-text-field>
+                                <v-text-field v-model="newuser.userid" :label="(newuser.level == 'siswa') ? 'NISN' :'NIP'" outlined dense hide-details append-icon="mdi-barcode" readonly></v-text-field>
                             </v-col>
-                            <!-- <v-col cols="12" sm="6">
-                                <v-text-field v-model="newuser.name" label="Nama Lengkap" outlined dense hide-details append-icon="mdi-card-text"></v-text-field>
-                            </v-col> -->
                             <v-col cols="12" sm="4">
                                 <v-text-field v-model="newuser.username" :label="(newuser.level == 'siswa') ? 'NISN' : 'Username'" outlined dense hide-details append-icon="mdi-qrcode"></v-text-field>
                             </v-col>
@@ -167,24 +174,12 @@
                             <v-col cols="12" sm="4">
                                 <v-text-field v-model="newuser.password" label="Password / Sandi" outlined dense hide-details append-icon="mdi-fingerprint"></v-text-field>
                             </v-col>
-                            <!-- <v-col cols="12" sm="4">
-                                <v-select v-model="newuser.jk" :items="jks" item-value="id" item-text="text" label="Jenis Kelamin" outlined dense hide-details append-icon="mdi-gender-male-female"></v-select>
-                            </v-col> -->
-                            <!-- <v-col cols="12" sm="4">
-                                <v-text-field v-model="newuser.hp"  label="No. HP" outlined dense hide-details append-icon="mdi-whatsapp"></v-text-field>
-                            </v-col> -->
-                           <!--  <v-col cols="12">
-                                <v-textarea auto-grow v-model="newuser.alamat" label="Alamat" outlined dense hide-details append-icon="mdi-map-marker" rows="2" row-height="15"></v-textarea>
-                            </v-col> -->
                             <v-col cols="12" sm="4">
                                 <v-select v-model="newuser.level" :items="levels" item-value="value" item-text="text" outlined dense hide-details append-icon="mdi-account-tie" label="Level"></v-select>
                             </v-col>
                             <v-col cols="12" sm="4">
                                 <v-select v-model="newuser.role" :items="roles" item-value="value" item-text="text" outlined dense hide-details append-icon="mdi-account-hard-hat" label="Role"></v-select>
                             </v-col>
-                            <!-- <v-col cols="12" sm="4">
-                                <v-select v-model="newuser.status" :items="status" item-value="value" item-text="text" outlined dense hide-details append-icon="mdi-seal" label="Status Pegawai"></v-select>
-                            </v-col> -->
                             <v-col cols="12" class="d-flex justify-center">
                                 <v-btn class="flat" type="submit" light color="primary">Simpan</v-btn>
                             </v-col>
@@ -196,140 +191,10 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog
-            v-model="dialogImport"
-            transition="dialog-bottom-transition"
-            fullscreen
-            hide-overlay
-        >
-            <v-toolbar 
-                dense
-                color="secondary"
-                dark
-            >
-                <v-toolbar-title>
-                    <v-icon>mdi-account-multiple-plus</v-icon>
-                    Impor User
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-items>
-                    <v-btn icon @click="dialogImport = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar-items>
-            </v-toolbar>
-            <v-card>
-                <v-card-text>
-                    <v-container fluid>
-                        <v-row>
-                            <v-col cols="12" sm="9">
-                                <v-card>
-                                    <v-toolbar dense>
-                                        <v-card-title>Daftar Calon User</v-card-title>
-                                        <v-divider vertical></v-divider>
-                                        <v-spacer></v-spacer>
-                                            <v-text-field
-                                                label="Cari Data"
-                                                v-model="search"
-                                                single-line
-                                                hide-details
-                                                flat
-                                                dense
-                                                append-icon="mdi-magnify"
-                                                clearable
-                                                :disabled="(newusers.length < 1)"
-                                            >
-                                            </v-text-field>
-                                    </v-toolbar>
-                                    <v-data-table
-                                        :items="newusers"
-                                        :headers="newheaders"
-                                        dense
-                                        :search="search"
-                                        no-data-text="Data Tidak Ditemukan"
-                                    >
-
-                                    </v-data-table>
-                                </v-card>
-                            </v-col>
-                            <v-col cols="12" sm="3">
-                                <v-card>
-                                    <v-toolbar>
-                                        Pilih File Excel
-                                    </v-toolbar>
-                                    <v-card-text>
-                                        <label>Pilih file yang berisi data pengguna yang akan disimpan yang berupa xls, xlsx, csv.</label>
-                                        <v-file-input 
-                                            dense 
-                                            outlined 
-                                            prepend-icon="" 
-                                            append-icon="mdi-file-excel" 
-                                            label="Pilih File" 
-                                            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                            @change="onFilePicked"
-                                        ></v-file-input>
-                                        <v-divider></v-divider>
-                                        <v-checkbox v-model="checknewusers" label="Data Pengguna Baru Sudah Benar" @change="checkNewUsers" :disabled="(newusers.length < 1 ) ? true:false"></v-checkbox>
-                                        <v-btn :disabled="!checknewusers" color="secondary" :dark="checknewusers" class="ma-auto" @click.stop="importUsers">Simpan</v-btn>
-
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-        <v-dialog
-            v-model="errorDialog"
-            max-width="400"
-        >
-            <v-card 
-                
-                color="error"
-                dark
-            >
-                <v-card-title>Format Kolom Salah.</v-card-title>
-                <v-card-text>
-                    <v-container fluid>
-                        <v-row>
-                            <v-col cols="12">
-                                <a href="/img/format-xls-user.png" target="__blank">
-                                <v-img
-                                    src="/img/format-xls-user.png" alt="Gambar"
-                                    title="Klik untuk melihat contoh format"
-                                />
-                                </a>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12">
-                                <div class="d-flex justify-center">
-                                    <v-btn color="secondary" @click.stop="genTemplate">Download Contoh Format</v-btn>
-                                </div>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-        <v-dialog v-model="hapus.open" max-width="500">
-            <v-card color="warning" dark>
-                <v-container>
-                <v-card-title class="center--text">Yakin Mengapus Data: </v-card-title>
-                <v-card-text>
-                    <h2>{{hapus.user.name}}</h2>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn light @click.stop="hapus.open=false; hapus.user = {};"><v-icon>mdi-cancel</v-icon>Batal</v-btn>
-                    <v-btn light @click.stop="confirmDelete"> <v-icon>mdi-eraser</v-icon>Iya, Lanjutkan</v-btn>
-                </v-card-actions>
-                </v-container>
-            </v-card>
-        </v-dialog>
-        <v-snackbar v-model="snackbar.show" top right multi-line :color="snackbar.color">
+        <v-snackbar v-model="snackbar.show" bottom right multi-line :color="snackbar.color">
             {{ snackbar.text }}
         </v-snackbar>
+        <confirm-dialog ref="confirm"></confirm-dialog>
     </Layout>
 </template>
 
@@ -340,9 +205,11 @@ import ApexCharts from 'apexcharts'
 import XLSX from 'xlsx'
 import saveAs from 'file-saver'
 import Download from '../Plugins/Download'
+import ConfirmDialog from '../Components/Modals/ConfirmDialog'
 export default {
     components: {
         Layout,
+        ConfirmDialog
         // ModalUser
     },
     props: {
@@ -440,8 +307,73 @@ export default {
         ],
     }),
     methods: {
-        deleteMany() {
-
+        async reset(item) {
+            this.$refs.confirm.open("Reset Password", "Anda akan mereset password "+ (item.level == 'siswa' ? 'Ananda ' : (item.userable.jk == 'l' ? 'Bapak' : 'Ibu')) +" "+(item.userable.name ? item.userable.name : item.userable.nama)+"!<br /> Password default: "+ (item.level == 'guru' ? '12345' : item.userable.tanggal_lahir))
+                .then((lanjut) => {
+                    if ( lanjut ) {
+                        var ttl = (item.userable.tanggal_lahir ? '?ttl='+item.userable.tanggal_lahir:'')
+                        axios({
+                            method: 'put',
+                            url: '/dashboard/user/'+item.id+ttl
+                        }).then( res => {
+                             this.snackbar = { show: true, color: 'success', text: res.data.msg }
+                             this.getUsers()
+                        }).catch( err => {
+                            this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                        })
+                    } else {
+                        return false
+                    }
+                }).catch( err => {
+                    this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                })
+        },
+        async resetMany() {
+            // console.log(this.selectedusers)
+                 this.$refs.confirm.open("Hapus Data", "Yakin Mengatur ulang password beberapa pengguna tersebut?")
+                 .then((lanjut) => {
+                    if ( lanjut ) {
+                        // var ttl = (item.userable.tanggal_lahir ? '?ttl='+item.userable.tanggal_lahir:'')
+                        axios({
+                            method: 'put',
+                            url: '/dashboard/user/many',
+                            data: { users: this.selectedusers}
+                        }).then( res => {
+                             this.snackbar = { show: true, color: 'success', text: res.data.msg }
+                             this.getUsers()
+                        }).catch( err => {
+                            this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                        })
+                    } else {
+                        return false
+                    }
+                }).catch( err => {
+                    this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                })
+            },
+        async deleteMany() {
+            var users = this.selectedusers
+                this.$refs.confirm.open("Hapus Data", "Yakin Menghapus data - data pengguna tersebut ?")
+                .then((lanjut) => {
+                    if(lanjut) {
+                        axios({
+                            method: 'delete',
+                            url: '/dashboard/user/many',
+                            data: {users : users}
+                        }).then( res => {
+                            this.snackbar = { show: true, color: 'success', text: res.data.msg }
+                            // console.log(response)
+                            this.getUsers()
+                        }).catch( err => {
+                            console.log(err.response)
+                        })
+                    } else {
+                        return false
+                    }
+                }).catch( err => {
+                    this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                })
+                
         },
         newUser(){
             this.newuser = Object.assign({},{})
@@ -579,15 +511,33 @@ export default {
             }
         },
         unduhData() { 
-            Download.UnduhExcel(this.items, 'Data Pengguna')
+            if(this.items.length < 1) {
+                this.snackbar = { show: true, color: 'error', text: 'Tidak ada data pengguna.'}
+                return false
+            }
+            let datas = []
+            this.items.forEach((item, index) => {
+                item.index = index+1
+                datas.push({index: index, userid: item.userid, nama: (item.userable.name ? item.userable.name : item.userable.nama), level: item.level, role: item.role, username: item.username})
+            })
+            Download.UnduhExcel(datas, 'Data Pengguna')
         },
         print() {
-            var datas = this.items
+            if(this.items.length < 1) {
+                this.snackbar = { show: true, color: 'error', text: 'Tidak ada data pengguna.'}
+                return false
+            }
+            let datas = []
+            this.items.forEach((item, index) => {
+                item.index = index+1
+                datas.push({index: index, userid: item.userid, nama: (item.userable.name ? item.userable.name : item.userable.nama), level: item.level, role: item.role, username: item.username, email: item.email, hp: item.userable.hp})
+            })
+            console.log(datas)
             var win = window.open('', '_blank', 'width=900,height=800,left=100')
             var tr = ''
-                datas.forEach((user,index) => {
+                datas.forEach(user => {
                     tr += `<tr>
-                            <td>${index+1}</td><td>${user.nip}</td><td>${user.name}</td><td>${user.username}</td><td>${user.email}</td><td>${user.jk}</td><td>${user.alamat}</td><td>${user.hp}</td>
+                            <td>${user.index+1}</td><td>${user.userid}</td><td>${user.nama}</td><td>${user.level}</td><td>${user.role}</td><td>${user.username}</td><td>${user.email}</td><td>${user.hp}</td>
                         </tr>`
                 })
 
@@ -625,7 +575,7 @@ export default {
                                 <table border="1">
                                     <thead>
                                         <tr>
-                                            <th>No</th><th>NIP</th><th>Nama</th><th>Username</th><th>Email</th><th>JK</th><th>Alamat</th><th>HP</th>
+                                            <th>No</th><th>NIP/NISN</th><th>Nama</th><th>Level</th><th>Role</th><th>Username</th><th>Email</th><th>HP</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -654,33 +604,28 @@ export default {
             this.dialogTitle = 'Perbarui Data '+item.username
             this.dialog = true
         },
-        deleteItem(item) {
-            this.hapus = {open: true, user: item}
-        },
-        confirmDelete() {
-            let user = this.hapus.user
-            axios({
-                method: 'post',
-                url: '/dashboard/user/'+user.id,
-                data: {_method: 'delete'}
-            }).then(response => {
-                
-                this.snackbar = {
-                    show: true,
-                    color: 'success',
-                    text: 'Data ' + user.name + ' Berhasil dihapus'
+        async deleteItem(item) {
+            // this.hapus = {open: true, user: item}
+            this.$refs.confirm.open("Hapus Data", "Yakin Menghapus pengguna "+item.username+" tersebut ?")
+                .then((lanjut) => {
+                    if(lanjut) {
+                        axios({
+                            method: 'delete',
+                            url: '/dashboard/user/'+item.id,
+                            // data: {users : users}
+                        }).then( res => {
+                            this.snackbar = { show: true, color: 'success', text: res.data.msg }
+                            // console.log(response)
+                            this.getUsers()
+                        }).catch( err => {
+                            console.log(err.response)
+                        })
+                    } else {
+                        return false
                     }
-                this.hapus = {open: false, user: {}}
-                this.getUsers()
-            }).catch(err => {
-                this.hapus = {open: false, user: {}}
-                this.snackbar = {
-                    show: true,
-                    color: 'error',
-                    text: err.response.data.msg
-                }
-                this.getUsers()
-            })
+                }).catch( err => {
+                    this.snackbar = { show: true, color: 'error', text: err.response.data.msg }
+                })
         },
         getUsers() {
             axios({
@@ -720,34 +665,37 @@ export default {
             // var users = this.items
             
             let byjks = [0,0];
-            let byroles = [0,0,0,0,0];
+            let byroles = [0,0,0,0,0,0];
             let bystatus = [0,0]
             let labelstatus = ['PNS', 'GTT'];
             let labelsjk = ['Laki-laki', 'Perempuan'];
-            let labelsrole = ['Kepala Sekolah','Wali Kelas', 'Guru PAI','Guru Olahraga','Guru Bhs. Inggris']
+            let labelsrole = ['Kepala Sekolah','Wali Kelas', 'Guru PAI','Guru Olahraga','Guru Bhs. Inggris', 'Siswa']
 
             // console.log(users)
             users.forEach(user => {
                 // By JK
-                if (user.jk == 'l') {
+                if (user.userable.jk == 'l') {
                     byjks[0] += 1
                 } else {
                     byjks[1] += 1
                 }
                 // By Role
-                if (user.role == 'ks' ) {
+                if( user.role == 'ks') {
                     byroles[0] += 1
-                } else if (user.role == 'wali' ) {
+                } else if ( user.role == 'wali') {
                     byroles[1] += 1
-                } else if ( user.role == 'gpai' ) {
+                } else if ( user.role == 'gpai') {
                     byroles[2] += 1
-                } else if (user.role == 'gor') {
+                } else if ( user.role == 'gor') {
                     byroles[3] += 1
-                } else {
+                } else if ( user.role == 'gben') {
                     byroles[4] += 1
+                } else if ( user.role == 'siswa') {
+                    byroles[5] += 1
                 }
+
                 // By Status
-                if (user.status == 'pns') {
+                if (user.userable.status == 'pns') {
                     bystatus[0] += 1
                 } else {
                     bystatus[1] += 1

@@ -23,7 +23,6 @@ class UserController extends Controller
 		// $default_password = '12345';
 
 		$upd_fields = [
-			'name' => $request->name,
 			'username' => $request->username,
 			'email' => $request->email,
 			'level' => $request->level,
@@ -64,9 +63,6 @@ class UserController extends Controller
     			User::updateOrCreate(
     				[
     					'userid' => $siswa['nisn'],
-    					
-    					
-    					
     					'level' => 'siswa',
     					'role' => 'siswa',
     					'userable_id' => $siswa['id'],
@@ -82,6 +78,35 @@ class UserController extends Controller
     			);
     		}
     		return response()->json(['success' => true, 'msg' => 'Akun siswa diaktifkan dengan username = NISN, password= Tanggal Lahir (Tahun-Bulan-Tanggal; contoh: 2000-02-19).'], 200);
+    	} catch (\Exception $e) {
+    		return response()->json(['success' => false, 'msg' => $e->getMessage()], 500);
+    	}
+    }
+	public function grantGuru(Request $request)
+    {
+    	try {
+    		$gurus = $request->gurus;
+    		foreach($gurus as $guru )
+    		{
+    			$nama = explode(" ", $guru['name']);
+    			User::updateOrCreate(
+    				[
+    					'userid' => $guru['nip'],
+    					'level' => 'guru',
+    					'role' => $guru['role'],
+    					'userable_id' => $guru['id'],
+    					'userable_type' => 'App\Models\Guru',
+    					'is_active' => 1
+    				],
+    				[
+    					'username' => strtolower($nama[0]),
+    					'password' => Hash::make('12345'),
+    					'email' => $guru['email'],
+    				]
+
+    			);
+    		}
+    		return response()->json(['success' => true, 'msg' => 'Akun guru diaktifkan dengan password default 12345.'], 200);
     	} catch (\Exception $e) {
     		return response()->json(['success' => false, 'msg' => $e->getMessage()], 500);
     	}
@@ -119,6 +144,20 @@ class UserController extends Controller
     	}
     }
 
+    public function deleteMany(Request $request)
+    {
+    	try {
+    		$users = $request->users;
+    		foreach($users as $user) {
+    			User::find($user['id'])->delete();
+    		}
+    		return response()->json(['success' => true, 'msg' => 'Data Beberapa Pengguna Berhasil Dihapus.'], 200);
+
+    	} catch (\Exception $e) {
+    		return response()->json(['success' => false, 'msg' => $e->getCode().':'.$e->getMessage()], 501);
+    	}
+    }
+
 	public function destroy(Request $request, $id)
 	{
 		try {
@@ -129,4 +168,30 @@ class UserController extends Controller
 			return response()->json(['success' => false, 'msg' => $e->getCode().':'.$e->getMessage()], 501);
 		}
 	}
+
+	public function reset(Request $request, $id)
+	{
+		try {
+			$password = $request->ttl ?? '12345';
+			User::find($id)->update(['password' => Hash::make($password)]);
+			return response()->json(['success' => true, 'msg' => 'Password telah direset.'], 200);
+		} catch (\Exception $e) {
+			return response()->json(['success' => false, 'msg' => $e->getCode().':'.$e->getMessage()], 501);
+		}
+	}
+	public function resetMany(Request $request)
+	{
+		try {
+			$users = $request->users;
+			// dd($users);
+			foreach($users as $user) {
+				$password = $user['userable']['tanggal_lahir'] ?? '12345';
+				User::find($user['id'])->update(['password' => Hash::make($password)]);
+			}
+			return response()->json(['success' => true, 'msg' => 'Password telah direset.'], 200);
+		} catch (\Exception $e) {
+			return response()->json(['success' => false, 'msg' => $e->getCode().':'.$e->getMessage()], 501);
+		}
+	}
+	
 }

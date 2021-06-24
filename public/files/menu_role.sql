@@ -11,21 +11,6 @@
 -- ---------------------------------------------------------
 
 
--- CREATE TABLE "menu_role" ------------------------------------
--- CREATE TABLE `menu_role`( 
--- 	`id` BigInt( 20 ) UNSIGNED AUTO_INCREMENT NOT NULL,
--- 	`menu_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
--- 	`role_id` VarChar( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
--- 	`created_at` Timestamp NULL DEFAULT NULL,
--- 	`updated_at` Timestamp NULL DEFAULT NULL,
--- 	PRIMARY KEY ( `id` ) )
--- CHARACTER SET = utf8mb4
--- COLLATE = utf8mb4_unicode_ci
--- ENGINE = InnoDB
--- AUTO_INCREMENT = 58;
--- -------------------------------------------------------------
-
-
 -- Dump data of "menu_role" --------------------------------
 BEGIN;
 

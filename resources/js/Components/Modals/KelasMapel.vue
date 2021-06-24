@@ -5,7 +5,7 @@
 			transition="dialog-bottom-transition"
 	        fullscreen
 	        hide-overlay>
-			<v-card img="/img/blabak.jpg">
+			<v-card>
 				<v-toolbar dense>
 					<v-toolbar-title>Data Mapel Kelas {{ kelas }}</v-toolbar-title>
 					<v-spacer></v-spacer>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 Route::get('/login', function(){
+    if(Auth::check()) {
+        return redirect('/dashboard');
+    }
     $status = DB::table('status')->first();
     if (!$status) {
         $msg = 'Jalankan Seeder untuk mengisi data utama.';
@@ -46,13 +50,22 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
     	Route::post('/store', [ UserController::class, 'store' ])->name('user.store');	
     	Route::post('/import', [ UserController::class, 'import' ])->name('user.import');
         Route::post('/grantsiswa', [ UserController::class, 'grantSiswa' ])->name('user.grantsiswa');
-        Route::delete('/{id}', [ UserController::class, 'destroy'])->name('user.delete');	
+        Route::post('/grantguru', [ UserController::class, 'grantGuru' ])->name('user.grantguru');
+        Route::delete('/many', [ UserController::class, 'deleteMany'])->name('user.delete.many');	
+        Route::put('/many', [ UserController::class, 'resetMany'])->name('user.reset.many');   
+        Route::delete('/{id}', [ UserController::class, 'destroy'])->name('user.delete');   
+        Route::put('/{id}', [ UserController::class, 'reset'])->name('user.reset');   
     });
 
     // Guru
     Route::group(['prefix' => 'guru', 'middleware' => 'admin'], function() {
         Route::get('/', [PageController::class, 'guru'])->name('dashboard.guru');
         Route::post('/', [GuruController::class, 'index'])->name('guru.index');
+        Route::post('/store', [GuruController::class, 'store'])->name('guru.store');
+        Route::post('/import', [GuruController::class, 'import'])->name('guru.import');
+        Route::delete('/many', [GuruController::class, 'deleteMany'])->name('guru.delete.many');
+        Route::delete('/{id}', [GuruController::class, 'destroy'])->name('guru.destroy');
+        // Route::post('/createaccount', [GuruController::class, 'createAccount'])->name('guru.account.create');
     });
 
     // Siswa

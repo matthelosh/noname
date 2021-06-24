@@ -7,21 +7,21 @@
                         <v-toolbar dense>
                             <v-toolbar-title><v-icon>mdi-google-classroom</v-icon> Rombel</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-btn ripple   text @click.stop="newRombel" rounded>
+                            <v-btn ripple   rounded color="primary" class="mx-1" @click.stop="newRombel" rounded>
                                 <v-icon>mdi-plus</v-icon>
                                 <span class="hidden-sm-and-down">Tambah</span>
                             </v-btn>
-                            <v-btn ripple text @click.stop="importRombel = true"  rounded>
+                            <v-btn ripple rounded color="info" class="mx-1" @click.stop="importRombel = true"  rounded>
                                 <v-icon>mdi-import</v-icon>
                                 <span class="hidden-sm-and-down">Impor</span>
                             </v-btn>
                             <span class="hidden-sm-and-down">
-                            <v-btn   ripple  text @click.stop="print"  rounded>
+                            <v-btn   ripple  rounded color="warning" class="mx-1" @click.stop="print"  rounded>
                                 <v-icon>mdi-printer</v-icon>
                                     Cetak
                             </v-btn>
                             </span>
-                            <v-btn   ripple text @click.stop="unduhRombel"  rounded>
+                            <v-btn   ripple rounded color="success" class="mx-1" @click.stop="unduhRombel"  rounded>
                                 <v-icon>mdi-file-excel-outline</v-icon>
                                 <span class="hidden-sm-and-down">
                                     Unduh

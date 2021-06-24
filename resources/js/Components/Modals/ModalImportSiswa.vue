@@ -7,13 +7,13 @@
         hide-overlay
     >
         <v-card>
-            <v-toolbar dense color="secondary" dark >
+            <v-toolbar dense color="primary" dark>
                 <v-toolbar-title>
                     <v-icon>mdi-file-excel</v-icon>
                     Impor Siswa
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon @click="$emit('hide')">
+                <v-btn fab small @click="$emit('hide')" color="error">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-toolbar>

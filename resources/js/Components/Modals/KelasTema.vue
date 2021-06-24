@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-dialog v-model="show">
-            <v-card img="/img/blabak.jpg">
+            <v-card>
                 <v-toolbar dense>
                     <v-toolbar-title>Tema Kelas {{ dialog.kelas.label }}</v-toolbar-title>
                     <v-spacer></v-spacer>
@@ -33,7 +33,7 @@
                                 </v-data-table>
                             </v-col>
                             <v-col cols="12" sm="6">
-                                <v-data-table :items="subtemas" :headers="headersubtema" dense>
+                                <v-data-table :items="subtemas" :headers="headersubtema" dense no-data-text="Klik icon kaca pembesar untuk melihat Sub Tema">
                                     <template v-slot:top>
                                         <v-container>
                                             <v-row>
@@ -64,8 +64,8 @@ export default {
         tema: '',
         headertema: [
             { text: 'No.', value: 'index', sortable: false },
-            { text: 'Kode Tema', value: 'kode_tema'},
-            { text: 'Teks Tema', value: 'teks' },
+            { text: 'Kode Tema', value: 'tema.kode_tema'},
+            { text: 'Teks Tema', value: 'tema.teks' },
             { text: 'Opsi', value: 'options' }
         ],
         subtemas: [],
@@ -84,21 +84,23 @@ export default {
                 url: '/dashboard/tema?kelas='+kelas.kode_kelas
             }).then( response => {
                 var temas = []
-                response.data.temas.forEach((tema,index) => {
-                    tema.index = index+1
-                    temas.push(tema)
+                response.data.datas.forEach((item,index) => {
+                    item.index = index+1
+                    temas.push(item)
                 })
                 this.temas = temas
             }).catch( err => {
                 console.log( err.response )
             })
         },
-        viewSubtema(tema) {
-            this.tema = tema.kode_tema.slice(-1)+ ' '+tema.teks
-            tema.subtemas.forEach((subtema,index) => {
+        viewSubtema(item) {
+            // console.log(tema)
+            var subtemas = []
+            item.tema.subtemas.forEach((subtema,index) => {
                 subtema.index = index+1
+                subtemas.push(subtema)
             })
-            this.subtemas = tema.subtemas
+            this.subtemas = subtemas
         }
     },
     computed: {

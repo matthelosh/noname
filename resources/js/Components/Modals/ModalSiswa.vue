@@ -9,7 +9,7 @@
             <v-card>
                 <v-toolbar 
                     dense
-                    color="secondary"
+                    color="primary"
                     dark
                 >
                     <v-toolbar-title>
@@ -17,11 +17,9 @@
                         Tambah Siswa Baru
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                        <v-btn icon @click="$emit('hide')">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                    </v-toolbar-items>
+                    <v-btn fab small @click="$emit('hide')" color="error">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
                 </v-toolbar>
                 
                 <v-card-text>

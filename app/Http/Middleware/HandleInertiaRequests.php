@@ -100,7 +100,7 @@ class HandleInertiaRequests extends Middleware
             $user = $model::where('nisn', $userid)->with('rombel', function($q) use ($periode) {
                 $q->where('periode_id', $periode);
             })->first();
-            $rombel = $user->rombel[0];
+            $rombel = $user->rombel[0] ?? null;
         } else {
             $user = $model::where('nip', $userid)->with('rombel', function($q) use ($periode) {
                 $q->where('periode_id', $periode);

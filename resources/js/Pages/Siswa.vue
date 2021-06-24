@@ -8,21 +8,24 @@
                             <v-icon>mdi-dots-vertical</v-icon>
                             <v-toolbar-title><span class="hidden-sm-and-down">Data</span> Siswa</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-btn ripple   text @click.stop="newSiswa">
+                            <v-btn ripple  rounded color="primary" @click.stop="newSiswa">
                                 <v-icon>mdi-account-plus</v-icon>
                                 <span class="hidden-sm-and-down">Tambah</span>
                             </v-btn>
-                            <v-btn ripple text @click.stop="importSiswa = true">
+                            &nbsp;
+                            <v-btn ripple rounded color="info" @click.stop="importSiswa = true">
                                 <v-icon>mdi-account-multiple-plus</v-icon>
                                 <span class="hidden-sm-and-down">Impor</span>
                             </v-btn>
+                            &nbsp;
                             <span class="hidden-sm-and-down">
-                            <v-btn   ripple  text @click.stop="print">
+                            <v-btn   ripple  rounded color="warning" @click.stop="print">
                                 <v-icon>mdi-printer</v-icon>
                                     Cetak
                             </v-btn>
                             </span>
-                            <v-btn   ripple text @click.stop="unduhSiswa">
+                            &nbsp;
+                            <v-btn   ripple rounded color="success" @click.stop="unduhSiswa">
                                 <v-icon>mdi-file-excel-outline</v-icon>
                                 <span class="hidden-sm-and-down">
                                     Unduh
@@ -87,9 +90,12 @@
                                 </template>
                                 <template v-slot:item.options="{item}"> 
                                     <span>
-                                        <v-icon  class="mr-2 info--text" @click.stop="ortu(item)">mdi-account-child-circle</v-icon>
-                                        <v-icon  class="mr-2 warning--text" @click.stop="editItem(item)">mdi-pencil</v-icon>
-                                        <v-icon  class="mr-2 error--text" @click.stop="deleteItem(item)">mdi-eraser</v-icon>
+                                        <v-btn color="info" small @click.stop="ortu(item)" rounded>
+                                            <v-icon >mdi-account-child-circle</v-icon>
+                                        </v-btn>
+                                        <v-btn color="error" small  @click.stop="deleteItem(item)" rounded>
+                                            <v-icon >mdi-eraser</v-icon>
+                                        </v-btn>
                                     </span>
                                 </template>
                             </v-data-table>
@@ -216,6 +222,7 @@
                 this.dialogKartu = { show: true, siswas: this.siswas }
             },
             selectAllToggle(props) {
+                // alert('hi')
                 if ( this.selectedsiswas.length != props.items.length - this.disabledCount) {
                     this.selectedsiswas = []
                     const self = this

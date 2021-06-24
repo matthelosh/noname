@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     use HasFactory;
-    protected $fillabel = ['kode_role', 'label'];
+    protected $fillable = ['kode_role', 'label'];
 
     public function users()
     {

@@ -25,8 +25,8 @@ class TemaController extends Controller
             $datas = Pemetaan::where([
                 ['pemetaans.semester','=',$semester],
                 ['pemetaans.kelas_id','=',$request->kelas]
-            ])->with('tema','subtema')->get();
-
+            ])->with('tema.subtemas')->groupBy('tema_id')->get(['tema_id']);
+            // dd($datas);
             return response()->json(['success' => true, 'datas' => $datas], 200);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], 502);

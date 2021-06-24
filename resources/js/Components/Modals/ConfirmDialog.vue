@@ -5,7 +5,7 @@
                 <v-toolbar-title>{{ title }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text v-show="!!message" class="pa-4 d-flex justify-center">
-                <h3 class="text-center">{{  message }}</h3>
+                <h3 class="text-center" v-html="message"></h3>
             </v-card-text>
             <v-card-actions class="pt-3">
                 <v-spacer></v-spacer>

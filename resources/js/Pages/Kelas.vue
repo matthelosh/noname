@@ -3,7 +3,7 @@
         <v-container>
             <v-row>
                 <v-col cols="12">
-                    <v-card img="/img/blabak.jpg">
+                    <v-card>
                         <v-toolbar dense class="mt-5">
                             <v-toolbar-title>Kelas</v-toolbar-title>
                         </v-toolbar>

@@ -25,7 +25,7 @@
 	            					<template v-slot:top>
 	            						<v-container>
 		            						<v-row>
-			            						<v-col cols="12" sm="8">
+			            						<v-col cols="12" sm="12">
 			            							<v-badge
 												        :content="selectedmembers.length"
 												        :value="selectedmembers.length"
@@ -37,6 +37,10 @@
 				            								Keluarkan
 				            							</v-btn>
 				            						</v-badge>
+				            						<v-btn @click.stop="imporMembers" dense color="success"  rounded>
+				            								<v-icon>mdi-microsoft-excel</v-icon> 
+				            								Impor
+				            							</v-btn>
 				            						<v-badge 
 				            							v-if="dialog.rombel.kelas_id == '6'"
 												        :content="selectedmembers.length"
@@ -54,7 +58,7 @@
 			            						<!-- <v-col cols="12" sm="3">
 			            							{{ selectedmembers.length }} terpilih
 			            						</v-col> -->
-			            						<v-col cols="12" sm="4">
+			            						<v-col cols="12" sm="6">
 				            						<v-text-field label="Cari" dense hide-details rounded outlined append-icon="mdi-magnify" v-model="membersearch" clearable></v-text-field>
 				            					</v-col>
 				            				</v-row>

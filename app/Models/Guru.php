@@ -10,7 +10,7 @@ class Guru extends Model
     use HasFactory;
     protected $fillable = [ 'nip', 'name', 'email', 'hp', 'jk', 'role', 'status', 'active', 'alamat' ];
 
-    public function users()
+    public function user()
     {
         return $this->morphMany('App\Models\User', 'userable');
     }

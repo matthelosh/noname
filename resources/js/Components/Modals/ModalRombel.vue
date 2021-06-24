@@ -113,9 +113,9 @@
 
                 axios({
                     method: 'post',
-                    url: '/dashboard/user'
+                    url: '/dashboard/guru'
                 }).then( res => {
-                    res.data.users.forEach( item => {
+                    res.data.gurus.forEach( item => {
                         this.walis.push( { text: item.name, value: item.nip } )
                     })
                 }).catch( err => {
