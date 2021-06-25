@@ -31,12 +31,12 @@
                         <v-card-text>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="4" v-if="periode.substr(4,1) == '1'">
-                                        <v-btn @click="fromPrevTapel" color="info" rounded>Data dari Tahun sebelumnya</v-btn>
+                                    <v-col cols="4">
+                                        <!-- <v-btn @click="fromPrevTapel" color="info" rounded>Data dari Tahun sebelumnya</v-btn> -->
                                     </v-col>
-                                    <v-col cols="4" v-else>
+                                   <!--  <v-col cols="4" v-else>
                                         <v-btn @click="fromPrevSemester" color="info" rounded>Data dari Semester sebelumnya</v-btn>
-                                    </v-col>
+                                    </v-col> -->
                                     
                                     <v-col cols="5">
                                         <v-select v-model="periode" :items="periodes" rounded item-key="value" item-text="text" outlined label="Periode" dense hide-details @change="initialize"></v-select>

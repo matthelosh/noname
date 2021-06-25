@@ -75,16 +75,25 @@ class RombelController extends Controller
     public function masukkan(Request $request)
     {
         try {
-            foreach($request->data as $siswa)
-            {
-                Rombel::find($request->query('id'))->siswas()->attach($siswa['id'], ['periode' => $request->session()->get('periode')]);
+            if ( $request->mode == 'impor' ) {
+                foreach( $request->data as $siswas) {
+                    $siswa = 'App\Models\Siswa'::where('nisn', $siswas['nisn'])->first();
+                    Rombel::find($request->query('id'))->siswas()->attach($siswa->id, ['periode' => $request->session()->get('periode')]);
+                }
+            } else {
+                foreach($request->data as $siswa)
+                {
+                    Rombel::find($request->query('id'))->siswas()->attach($siswa['id'], ['periode' => $request->session()->get('periode')]);
 
+                }
             }
             return response()->json(['success' => true, 'msg' => 'Data Siswa dimasukakn ke rombel ini.'], 200);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'msg' => $e->getCode().':'.$e->getMessage()], 502);
         }
     }
+
+
 
     public function keluarkan(Request $request)
     {

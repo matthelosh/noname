@@ -25,7 +25,7 @@
 	            					<template v-slot:top>
 	            						<v-container>
 		            						<v-row>
-			            						<v-col cols="12" sm="12">
+			            						<v-col cols="12" sm="4">
 			            							<v-badge
 												        :content="selectedmembers.length"
 												        :value="selectedmembers.length"
@@ -37,11 +37,17 @@
 				            								Keluarkan
 				            							</v-btn>
 				            						</v-badge>
-				            						<v-btn @click.stop="imporMembers" dense color="success"  rounded>
-				            								<v-icon>mdi-microsoft-excel</v-icon> 
-				            								Impor
-				            							</v-btn>
-				            						<v-badge 
+				            					</v-col>
+				            					<v-col cols="8">
+				            						<input type="file" ref="filesiswa" class="d-none" @change="onFileSelected" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, *.csv, *.ods">
+				            						<v-btn @click.stop="impor" dense color="success"  rounded :loading="imporMembers.loading" >
+			            								<v-icon>mdi-microsoft-excel</v-icon> 
+			            								{{ imporMembers.label }}
+			            							</v-btn>
+				            						
+			            						</v-col>
+			            						<v-col cols="12" sm="3">
+			            							<v-badge 
 				            							v-if="dialog.rombel.kelas_id == '6'"
 												        :content="selectedmembers.length"
 												        :value="selectedmembers.length"
@@ -55,9 +61,6 @@
 				            						</v-badge>
 				            						
 			            						</v-col>
-			            						<!-- <v-col cols="12" sm="3">
-			            							{{ selectedmembers.length }} terpilih
-			            						</v-col> -->
 			            						<v-col cols="12" sm="6">
 				            						<v-text-field label="Cari" dense hide-details rounded outlined append-icon="mdi-magnify" v-model="membersearch" clearable></v-text-field>
 				            					</v-col>
@@ -116,18 +119,24 @@
 		<v-snackbar v-model="snackbar.show" :color="snackbar.color" bottom right multi-line>
 			{{ snackbar.text }}
 		</v-snackbar>
+		<impor-member v-if="imporMembers.show" :dialog="imporMembers" @hide="closeImpor"></impor-member>
 	</div>
 </template>
 
 <script>
 	import ConfirmDialog from './ConfirmDialog'
+	import ImporMember from './ImporMember'
 	export default {
 		name: 'ManajemenRombel',
 		props: {
 			dialog: Object
 		},
-		components: { ConfirmDialog },
+		components: { ConfirmDialog, ImporMember },
 		data: () => ({
+			imporMembers: {
+				label: 'Impor dari file',
+				loading: false,
+			},
 			loadingmembers: false,
 			loadingnonmembers: false,
 			snackbar: {show: false},
@@ -149,6 +158,29 @@
 			]
 		}),
 		methods: {
+			closeImpor(){
+				this.imporMembers = {
+					show: false,
+					loading: false,
+					label: 'Impor dari file',
+					e: null
+				}
+				this.$refs.filesiswa.value = null
+				this.initialize()
+			},
+			impor() {
+				this.imporMembers.loading = true
+				this.$refs.filesiswa.click()
+			},
+			onFileSelected(e) {
+				this.imporMembers = {
+					loading: true,
+					show: true,
+					e: e,
+					rombel: this.dialog.rombel
+				}
+				// console.log(e)
+			},
 			async nonaktifkan() {
                 // alert(siswa.nama)
                 if ( await this.$refs.confirm.open("Confirm", "Yakin Me-nonaktifkan siswa terpilih?")) {

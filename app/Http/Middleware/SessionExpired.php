@@ -3,11 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Session\Store;
+use Auth;
 use Session;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class SessionExpired
 {
@@ -18,30 +17,29 @@ class SessionExpired
      * @param  \Closure  $next
      * @return mixed
      */
+     protected $session;
+     protected $timeout = 1200;
 
+    public function __construct(Store $session) 
+    {
+        $this->session = $session;
+    }
     
 
     
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return $next($request);
+        $isLoggedIn = $request->path() != '/logout';
+
+        if ( ! session('lastActivityTime'))
+            $this->session->put('lastActivityTime', time());
+        elseif(time() - $this->session->get('lastActivityTime') > $this->timeout) {
+            $this->session->forget('lastActivityTime');
+            $cookie = cookie('intend', $isLoggedIn ? url()->current() : '/dashboard');
+            auth()->logout();
+            return redirect('/login')->withError('msg', 'Sesi Anda berakhir');
         }
-
-        $user = Auth::guard()->user();
-        $now = Carbon::now();
-        $last_seen = carbon::parse($user->last_seen_at);
-        $absence = $now->diffInMinutes($last_seen);
-
-        if ($absence > config('session.lifetime')) {
-            Auth::guard()->logout();
-            $request->session()->invalidate();
-            return $next($request);
-        }
-
-        $user->last_seen_at = $now->format('Y-m-d H:i:s');
-        $user->save();
-
+        $isLoggedIn ? $this->session->put('lastActivityTime', time()) : $this->session->forget('lastActivityTime');
         return $next($request);
     }
 }
