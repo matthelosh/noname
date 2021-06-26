@@ -14,7 +14,9 @@ class SiswaController extends Controller
     {
         switch($request->role){
             case 'admin':
-                $siswas = Siswa::with('rombel', 'user')->get();
+                $siswas = Siswa::with('user', 'ortu')->with('rombel', function($q) use ($request) {
+                    $q->where('periode_id', $request->session()->get('periode'));
+                })->where('active', 1)->get();
                 break;
             case 'wali':
                 $rombel = 'App\Models\Rombel'::where([

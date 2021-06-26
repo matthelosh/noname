@@ -91,4 +91,9 @@ class PageController extends Controller
     {
         return inertia::render('Setting/Rapor', ['page' => 'setting-rapor', 'page_title' => 'Pengaturan Rapor']);
     }
+
+    public function log(Request $request)
+    {
+        return Inertia::render('AksesLog', ['page' => 'akses_log', 'page_title' => 'Catatan Akses']);
+    }
 }

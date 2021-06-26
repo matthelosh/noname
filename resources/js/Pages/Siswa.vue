@@ -37,8 +37,6 @@
                                 <v-row>
                                     <v-col cols="5">
                                         <span v-if="$page.props.user.role == 'admin'" >{{ disabledCount }} siswa punya akun</span>
-                                    </v-col>
-                                    <v-col cols="3">
                                         <v-badge
                                             v-if="$page.props.user.role == 'admin'"
                                             :content="selectedsiswas.length"
@@ -51,6 +49,15 @@
                                                 Beri Akses Login
                                             </v-btn>
                                         </v-badge>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <div v-if="$page.props.user.role == 'admin'">
+                                            <input type="file" ref="fileortu" class="d-none" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, *.csv, *.ods" @change="onFileOrtuPicked" />
+                                            <v-btn color="success" @click="imporOrtu" rounded dense :loading="dialogImporOrtu.loading">
+                                                <v-icon>mdi-microsoft-excel</v-icon>
+                                                Impor Orang Tua
+                                            </v-btn>
+                                        </div>
                                         <v-btn v-if="$page.props.user.role == 'wali'" color="primary" rounded @click="cetakKartu">Cetak Kartu Siswa</v-btn>
                                     </v-col>
                                     <v-col cols="4">
@@ -159,16 +166,20 @@
         <confirm-dialog ref="confirm"></confirm-dialog>
         <ortu-siswa v-if="dialogortu.show" :modal="dialogortu" @hide="dialogortu.show = false"></ortu-siswa>
         <kartu-siswa v-if="dialogKartu.show" :dialog="dialogKartu" @hide="dialogKartu.show = false"></kartu-siswa>
-        <v-snackbar v-model="snackbar.show" :color="snackbar.color" top right multi-line>{{snackbar.text}}<template v-slot:action="{ attrs }">
-        <v-btn
-          text
-          dark
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Tutup
-        </v-btn>
-      </template></v-snackbar>
+        <v-snackbar v-model="snackbar.show" :color="snackbar.color" top right multi-line>
+            {{snackbar.text}}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                  text
+                  dark
+                  v-bind="attrs"
+                  @click="snackbar = false"
+                >
+                  Tutup
+                </v-btn>
+            </template>
+        </v-snackbar>
+        <impor-ortu v-if="dialogImporOrtu.show" :dialog="dialogImporOrtu" @hide="closeImporOrtu"></impor-ortu>
     </Layout>
 </template>
 
@@ -182,12 +193,16 @@
     import ConfirmDialog from '../Components/Modals/ConfirmDialog'
     import OrtuSiswa from '../Components/Modals/OrtuSiswa'
     import KartuSiswa from '../Components/Modals/KartuSiswa'
+    import ImporOrtu from '../Components/Modals/ImporOrtu'
 // import CetakTable from '../Plugins/print';
     export default {
         name: 'Siswa',
-        components: { Layout, ModalSiswa, ModalImportSiswa, ConfirmDialog, OrtuSiswa, KartuSiswa },
+        components: { Layout, ModalSiswa, ModalImportSiswa, ConfirmDialog, OrtuSiswa, KartuSiswa, ImporOrtu },
         props: {page: String, page_title: String},
         data: () => ({
+            dialogImporOrtu: {
+                show: false,
+            }, 
             dialogKartu: {show: false},
             dialogortu: { show: false, siswa: {} },
             dialogSiswa: {
@@ -204,10 +219,8 @@
                 {value: 'nisn', text: 'NISN'},
                 {value: 'nis', text: 'NIS'},
                 {value: 'nama', text: 'Nama'},
-                {value: 'jk', text: 'JK'},
                 {value: 'agama', text: 'Agama'},
-                {value: 'hp', text: 'HP'},
-                {value: 'alamat', text: 'Alamat'},
+                {value: 'rombel[0].label', text: 'Kelas'},
                 {value: 'ortu.nama_ibu', text: 'Nama Ibu'},
                 {value: 'options', text: 'Opsi'},
             ],
@@ -217,6 +230,24 @@
             selectedsiswas: []
         }),
         methods: {
+            closeImporOrtu() {
+                this.dialogImporOrtu = {
+                    show: false,
+                    e: null
+                }
+                this.$refs.fileortu.value = null
+            },
+            imporOrtu() {
+                this.dialogImporOrtu.loading = true
+                this.$refs.fileortu.click()
+            },
+            onFileOrtuPicked(e){
+                this.dialogImporOrtu = {
+                    show: true,
+                    loading: true,
+                    e: e
+                }
+            },
             cetakKartu() {
                 // alert('hi')
                 this.dialogKartu = { show: true, siswas: this.siswas }

@@ -15,7 +15,7 @@
                                 <v-select v-model="rombel.kelas_id" :items="kelas" item-key="value" item-text="text" label="Kelas" dense hide-details outlined @change="onChange"></v-select>
                             </v-col>
                             <v-col cols="12" sm="3">
-                                <v-select v-model="rombel.abjad" :items="[{text:'0', value:''},{text: 'A', value: 'a'},{text: 'B', value: 'b'}]" item-key="value" item-text="text" label="Label" dense hide-details outlined></v-select>
+                                <v-select v-model="rombel.abjad" :items="[{text:'0', value:''},{text: 'A', value: 'a'},{text: 'B', value: 'b'}]" item-key="value" item-text="text" label="Pararel" dense hide-details outlined></v-select>
                             </v-col>
                             <v-col cols="12" sm="4">
                                 <v-text-field label="Nama Rombel" v-model="rombel.label" dense hide-details outlined></v-text-field>
@@ -49,9 +49,9 @@
             snackbar: {}
         }),
         methods: {
-            onChange(e) {
-                console.log(e)
-            },
+            // onChange(e) {
+            //     console.log(e)
+            // },
             // kode_rombel','label','kelas_id','guru_id','periode_id'
             simpan(e) {
                 e.preventDefault()

@@ -10,7 +10,7 @@ class SekolahController extends Controller
     public function index(Request $request)
     {
     	try {
-    		$sekolah = Sekolah::with('kepala', 'ops')->first();
+    		$sekolah = Sekolah::with('ks', 'ops')->first();
     		return response()->json(['success' => true, 'sekolah' => $sekolah, 'msg' => 'Data Sekolah'], 200);
     	} catch (\Exception $e) {
     		return response()->json(['success' => false, 'msg' => $e->getMessage()], 502);

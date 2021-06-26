@@ -37,7 +37,7 @@ class SessionExpired
             $this->session->forget('lastActivityTime');
             $cookie = cookie('intend', $isLoggedIn ? url()->current() : '/dashboard');
             auth()->logout();
-            return redirect('/login')->withError('msg', 'Sesi Anda berakhir');
+            return redirect('/')->withError('msg', 'Sesi Anda berakhir');
         }
         $isLoggedIn ? $this->session->put('lastActivityTime', time()) : $this->session->forget('lastActivityTime');
         return $next($request);

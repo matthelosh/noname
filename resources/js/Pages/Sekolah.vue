@@ -26,11 +26,12 @@
 										<p class="my-0 l-0">Telp: {{ sekolah.telp }} / Fax: -</p>
 										<p class="my-0 l-0">Email: {{ sekolah.email }}</p>
 										<p class="my-0 l-0">Website: {{ sekolah.website }}</p>
+										<p class="my-0 l-0">Kepala Sekolah: {{ (sekolah.ks ? sekolah.ks.name : '-')  }}</p>
 									</v-col>
 									<v-col cols="12" sm="4">
 										<!-- <div class="mapouter"><div class="gmap_canvas"><iframe width="300" height="350" id="gmap_canvas" src="https://maps.google.com/maps?q=SD%20Negeri.%201%20Bedalisodo&t=&z=19&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div></div> -->
 										<v-avatar  class="elevation-1" size='200'>
-											<img :src="'/storage/img/users/'+sekolah.ks+'.jpg'" onerror="this.error=false;this.src='/img/siswi-avatar.png'">
+											<img :src="'/storage/img/users/'+(sekolah.ks ? (sekolah.ks.nip+'.jpg') : 'user_l.png')" onerror="this.error=false;this.src='/img/siswi-avatar.png'">
 										</v-avatar>
 									</v-col>
 								</v-row>

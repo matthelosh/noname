@@ -116,10 +116,10 @@
 			getUsers() {
 				axios({
 					method: 'post',
-					url: '/dashboard/user'
+					url: '/dashboard/guru'
 				}).then( response => {
 					var users = []
-					response.data.users.forEach(user => {
+					response.data.gurus.forEach(user => {
 						users.push({ text: user.name, value: user.nip })
 					})
 					this.users = users

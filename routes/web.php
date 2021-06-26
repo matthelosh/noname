@@ -81,6 +81,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
 
     Route::group(['prefix' => 'ortu'], function() {
        Route::post('/simpan', [OrtuController::class, 'store'])->name('ortu.store');
+       Route::post('/impor', [OrtuController::class, 'impor'])->name('ortu.impor');
        Route::post('/{id}', [OrtuController::class, 'show'])->name('ortu.show');
         // response('hi');
     });
@@ -196,6 +197,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::post('/tanggalrapor', [TanggalraporController::class, 'index'])->name('setting.tanggalrapor'); 
         Route::post('/tanggalrapor/simpan', [TanggalraporController::class, 'store'])->name('setting.tanggalrapor.store'); 
         Route::delete('/tanggalrapor/{id}', [TanggalraporController::class, 'destroy'])->name('setting.tanggalrapor.destroy'); 
+    });
+
+    Route::group(['prefix' => 'logs', 'middleware' => ['admin']], function() {
+        Route::get('/', [PageController::class, 'log'])->name('log');
+        Route::post('/', [LogController::class, 'index'])->name('log.index');
     });
 });
 

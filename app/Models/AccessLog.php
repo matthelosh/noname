@@ -12,6 +12,6 @@ class AccessLog extends Model
 
     public function users()
     {
-    	return $this->belongsTo('App\Models\User', 'user_id', 'nip');
+    	return $this->belongsTo('App\Models\User', 'user_id', 'userid');
     }
 }

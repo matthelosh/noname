@@ -10,7 +10,7 @@ class Ortu extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nik_ayah','nama_ayah', 'job_ayah', 'nama_ibu', 'job_ibu', 'nama_wali', 'alamat_wali', 'job_wali'
+        'nik_ayah','nama_ayah', 'job_ayah','status_ayah', 'nama_ibu', 'job_ibu', 'status_ibu', 'nama_wali', 'alamat_wali', 'job_wali'
     ];
 
     public function siswas()

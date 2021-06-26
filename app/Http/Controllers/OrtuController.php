@@ -23,9 +23,33 @@ class OrtuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function impor(Request $request)
     {
-        //
+        try {
+            $datas = $request->ortus;
+            // dd($datas);
+            foreach($datas as $data) {
+                $data = (object) $data;
+                $ortu = new Ortu();
+                $ortu->nik_ayah = $data->nik_ayah??'0';
+                $ortu->nama_ayah = $data->nama_ayah??'';
+                $ortu->job_ayah = $data->job_ayah??'';
+                $ortu->status_ayah = $data->status_ayah??'hidup';
+                $ortu->nama_ibu = $data->nama_ibu??'';
+                $ortu->job_ibu = $data->job_ibu??'';
+                $ortu->status_ibu = $data->status_ibu??'hidup';
+                $ortu->nama_wali = $data->nama_wali??'';
+                $ortu->job_wali = $data->job_wali??'';
+                $ortu->alamat_wali = $data->alamat_wali??'';
+                $ortu->save();
+
+                Siswa::where('nisn', $data->nisn)->update(['ortu_id' => $ortu->id]);
+
+            }
+            return response()->json(['success' => true, 'msg' => 'Data Prtu Disimpan'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'msg' => $e->getMessage()], 500);
+        }
     }
 
     /**
