@@ -93,7 +93,7 @@
 									v-slot:item.foto="{item}"
 									>
 									<v-avatar size="50" @click="detail(item)" style="cursor:pointer;">
-										<img :src="'/img/users/'+item.nip+'.jpg'"
+										<img :src="'/storage/img/users/'+item.nip+'.jpg'"
 										alt="Foto"
 										@error="setDefaultFoto($event,item.jk)"
 										/>
@@ -348,7 +348,7 @@
 				})
 			},
 			setDefaultFoto(event,jk) {
-				var foto = (jk == 'l') ? '/img/users/user_l.png' : '/img/users/user_p.png'
+				var foto = (jk == 'l') ? '/storage/img/users/user_l.png' : '/storage/img/users/user_p.png'
 				event.target.src = foto
 			}
 		},
