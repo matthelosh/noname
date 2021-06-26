@@ -38,7 +38,7 @@
 										<v-row>
 											<v-col cols="6" style="position: relative; height: 190px;width: 323.5px; ">
 												<div style="position: relative;">
-												<table>
+												<table style="min-height: 120px;">
 													<tr>
 														<td></td>
 														<td colspan="3" style="padding-bottom: 15px;"><h3 style="margin-bottom: -5px">{{ $page.props.sekolah.nama_sekolah }}</h3>
@@ -46,7 +46,7 @@
 														</td>
 													</tr>
 													<tr>
-														<td rowspan="4" style="vertical-align: top;padding-top: 5px;;" width="20%">
+														<td rowspan="4" style="vertical-align: top;padding-top: 5px;" width="20%">
 															<img :src="'/img/siswas/'+siswa.nisn+'.jpg'" alt="Foto" width="50px" @error="setDefaultFoto($event,siswa.jk)">
 														</td>
 														<td width="25%">NIS / NISN</td><td>:</td><td>{{ siswa.nis }} / <b>{{ siswa.nisn }}</b></td>
@@ -61,10 +61,11 @@
 														<td>Kontak</td><td>:</td><td>{{ siswa.hp }}</td>
 													</tr>
 												</table>
-												<img class="ttd" :src="'/img/ttd/'+$page.props.sekolah.ks.nip+'.png'" alt="TTD." width="50px" height="auto" />
-												<h1 class="tahun">2021</h1>
+												
 												
 												</div>
+												<h1 class="tahun" style="position:absolute;left: 40%; bottom: 7px; filter: opacity(40%) ;">2021</h1>
+												<img class="ttd" :src="'/img/ttd/'+$page.props.sekolah.ks.nip+'.png'" alt="TTD." width="50px" height="auto" style="position: absolute; left: 35px; bottom: 7px;" />
 												<vue-qrious mime="image/png" :value="siswa.nisn" :size="100" width="40" style="position: absolute; bottom:5px;right: 10px;" />
 											</v-col>
 											<v-col cols="6">
@@ -122,45 +123,22 @@
 								Kartu Siswa
 							</title>
 							<style>
-								.p-20 {
-								padding:  20px;
-							}
-							table {
-								margin: 20px auto 10px auto;
-								border-collapse: collapse;
-								width:  85%;
-							}
-							table td {
-								text-align: left;
-								font-size: 0.85em;
-								padding: 0;
-								vertical-align: top;
-								/*background: pink;*/
-								line-height: 1.5em;
-							}
-							img.ttd {
-								position: absolute;
-								left:  20px;
-								bottom:  10px;
-							}
-							h1.tahun {
-								position: absolute;
-								right:  55%;
-								bottom:  5px;
-								font-weight: 800;
-								color:  grey;
-								filter: opacity(40%) ;
-								mix-blend-mode: exclusion;
-							}
-							.qr {
-								position: absolute;
-								bottom: 5px;
-								left:  40%;
-							}
-							.col-6 {
-								width: 50%;
-							}
-							@media print {
+									.p-20 {
+										padding:  20px;
+									}
+									table {
+										margin: 20px auto 10px auto;
+										border-collapse: collapse;
+										width:  85%;
+									}
+									table td {
+										text-align: left;
+										font-size: 0.85em;
+										padding: 0;
+										vertical-align: top;
+										/*background: pink;*/
+										line-height: 1.5em;
+									}
 								.sheet {
 									page-break-after: always;
 								}
@@ -210,14 +188,14 @@
 		/*background: pink;*/
 		line-height: 1.5em;
 	}
-	img.ttd {
+	/*img.ttd {
 		position: absolute;
 		left:  20px;
-		bottom:  10px;
-	}
-	h1.tahun {
+		margin-top:  10px;
+	}*/
+	/*h1.tahun {
 		position: absolute;
-		left:  20%;
+		left: 40%;
 		bottom:  10px;
 		font-weight: 800;
 		color:  grey;
@@ -228,5 +206,5 @@
 		position: absolute;
 		bottom: 5px;
 		left:  40%;
-	}
+	}*/
 </style>

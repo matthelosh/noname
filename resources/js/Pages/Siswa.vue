@@ -100,7 +100,7 @@
                                         <v-btn color="info" small @click.stop="ortu(item)" rounded>
                                             <v-icon >mdi-account-child-circle</v-icon>
                                         </v-btn>
-                                        <v-btn color="error" small  @click.stop="deleteItem(item)" rounded>
+                                        <v-btn color="error" small  @click.stop="deleteItem(item)" rounded v-if="$page.props.user.role == 'admin'">
                                             <v-icon >mdi-eraser</v-icon>
                                         </v-btn>
                                     </span>
@@ -214,15 +214,7 @@
             importSiswa: false,
             search: '',
             sheaders: [
-                {value: 'index', text: 'No', sortable: false},
-                {value: 'foto', text: 'FOTO'},
-                {value: 'nisn', text: 'NISN'},
-                {value: 'nis', text: 'NIS'},
-                {value: 'nama', text: 'Nama'},
-                {value: 'agama', text: 'Agama'},
-                {value: 'rombel[0].label', text: 'Kelas'},
-                {value: 'ortu.nama_ibu', text: 'Nama Ibu'},
-                {value: 'options', text: 'Opsi'},
+                
             ],
             siswas: [
                 
@@ -307,8 +299,22 @@
             },
             getSiswas() {
                 let role = this.$page.props.user.role
+                var sheaders = [
+                    {value: 'index', text: 'No', sortable: false},
+                    {value: 'foto', text: 'Foto'},
+                    {value: 'nisn', text: 'NISN'},
+                    {value: 'nis', text: 'NIS'},
+                    {value: 'nama', text: 'Nama'},
+                    {value: 'agama', text: 'Agama'},
+                    
+                    {value: 'ortu.nama_ibu', text: 'Nama Ibu'},
+                    {value: 'options', text: 'Opsi'},
+                ]
 
-                
+                if (this.$page.props.user.role == 'admin') {
+                    sheaders.push({value: 'rombel[0].label', text: 'Kelas'},)
+                }
+                this.sheaders = sheaders
                 axios({
                     method: 'post',
                     url: '/dashboard/siswa?role='+role
