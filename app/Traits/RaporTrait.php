@@ -168,74 +168,11 @@ trait RaporTrait
                 ['jenis','<>', 'pts'],
                 ['aspek','=','k3']
             ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-            // $nilai_uh3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'uh'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai)*2 AS nilai')]);
-
-
-            // $nilai_ts3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'pts'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-
-            // $nilai_as3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'pas'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-
-            // $nh3 = [];
-            // $nts3 = [];
-            // $nas3 = [];
-
-
-            // foreach($nilai_uh3 as $n)
-            // {
-            //     $nh3[$n->kd_id] = $n->nilai;
-            // }
-            
-            // foreach($nilai_ts3 as $n)
-            // {
-            //     $nts3[$n->kd_id] = $n->nilai;
-            // }
-            // foreach($nilai_as3 as $n)
-            // {
-            //     $nas3[$n->kd_id] = $n->nilai;
-            // }
 
             $nilais3 = [];
             foreach($nilai3 as $nilai) {
                 $nilais3[$nilai->kd_id] = $nilai->nilai;
             }
-            // foreach(array_keys($nh3 + $nts3 + $nas3) as $kd)
-            // {
-                
-            //     $j = (isset($nh3[$kd])??0) + (isset($nts3[$kd])??0) + (isset($nas3[$kd])??0);
-            //     switch($j)
-            //     {
-            //         case 3:
-            //             $nilais3[$kd] = (($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0))/4;
-            //             break;    
-            //         case 2:
-            //             $nilais3[$kd] = (($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0))/3;
-            //             break;
-            //         case 1:
-            //             $nilais3[$kd] = ($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0);
-            //             break;
-            //     }
-            // }
 
             $n3max=0;
             $k3max='';
@@ -346,76 +283,11 @@ trait RaporTrait
                 ['aspek','=','k3']
             ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
 
-            // $nilai_uh3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'uh'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-
-
-            // $nilai_ts3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'pts'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-
-            // $nilai_as3 = Nilai::where([
-            //     ['siswa_id','=',$request->siswa_id],
-            //     ['periode_id','=',$request->periode],
-            //     ['rombel_id','=', $request->rombel],
-            //     ['mapel_id','=',$mapel->kode_mapel],
-            //     ['jenis','=', 'pas'],
-            //     ['aspek','=','k3']
-            // ])->groupBy('kd_id')->get(['kd_id', DB::raw('AVG(nilai) AS nilai')]);
-
-            // $nh3 = [];
-            // $nts3 = [];
-            // $nas3 = [];
-
-
-            // foreach($nilai_uh3 as $n)
-            // {
-            //     $nh3[$n->kd_id] = $n->nilai;
-            // }
-            
-            // foreach($nilai_ts3 as $n)
-            // {
-            //     $nts3[$n->kd_id] = $n->nilai;
-            // }
-            // foreach($nilai_as3 as $n)
-            // {
-            //     $nas3[$n->kd_id] = $n->nilai;
-            // }
 
             $nilais3 = [];
             foreach($nilai3 as $nilai){
                 $nilais3[$nilai->kd_id] = $nilai->nilai;
             }
-            // $j3 = [];
-            // foreach(array_keys($nh3 + $nts3 + $nas3) as $kd)
-            // {
-            //     $nilais3[$kd] = (isset($nh3[$kd])??0) + (isset($nts3[$kd])??0) + (isset($nas3[$kd])??0);
-                // $j = (isset($nh3[$kd])??0) + (isset($nts3[$kd])??0) + (isset($nas3[$kd])??0);
-                // array_push($j3,$nh3[$kd]);
-                // switch($j)
-                // {
-                //     case 3:
-                //         $nilais3[$kd] = (($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0))/4;
-                //         break;    
-                //     case 2:
-                //         $nilais3[$kd] = (($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0))/3;
-                //         break;
-                //     case 1:
-                //         $nilais3[$kd] = (($nh3[$kd]??0) + ($nts3[$kd]??0) + ($nas3[$kd]??0));
-                //         break;
-                // }
-            // }
 
             $n3max=0;
             $k3max='';
@@ -619,15 +491,7 @@ trait RaporTrait
             'deskripsi' => $deskripsi2
         ];
 
-        // $avg3 = Nilai::where([
-        //     ['siswa_id','=',$request->siswa_id],
-        //     ['periode_id','=',$request->periode],
-        //     ['rombel_id','=', $request->rombel],
-        //     ['aspek','=','k3']
-        // ]);
-        // $pas['avg'] = $avg3->avg('nilai');
         $pas = $pas;
-        // return 'pas';
         return $pas;
     }
 
@@ -670,12 +534,12 @@ trait RaporTrait
 
     public function huruf($nilai, $kkm)
     {
-        $kkm = ($kkm != 0) ? $kkm : 75;
+        $kkm = ($kkm != 0) ? $kkm : 70;
         switch ($nilai) {
             case ($nilai < $kkm):
                 return "D";
                 break;
-            case ($nilai >= $kkm && $nilai < 85):
+            case ($nilai == $kkm ):
                 return "C";
                 break;
             case ($nilai > $kkm && $nilai < 90):

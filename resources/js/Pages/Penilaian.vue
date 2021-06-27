@@ -212,7 +212,7 @@ export default {
 
         },
         bg(prosentase, jml_kd) {
-            return 'background-image: linear-gradient(75deg, '+ ((prosentase > 80 ? "#849324" : (prosentase > 20) ? "#FFB30F" : "#FD151B") +' '+prosentase+'%, white '+(jml_kd - prosentase))+'%); border: solid 1px '+((prosentase > 80) ? "#849324" : (prosentase > 50) ? "#FFB30F" : "#FD151B")+';color:'+((prosentase > 80) ? 'white': 'black')+';'
+            return 'background-image: linear-gradient(75deg, '+ ((prosentase > 80 ? "#849324de" : (prosentase > 20) ? "#FFB30Fde" : "#FD151Bde") +' '+prosentase+'%, #ffffffde '+(jml_kd - prosentase))+'%); border: solid 1px '+((prosentase > 80) ? "#849324de" : (prosentase > 50) ? "#FFB30Fde" : "#FD151Bde")+';color:'+((prosentase > 80) ? '#ffffffde': 'black')+';'
             // return 'background-image: linear-gradient(75deg, green 80%, white 20%);'
         },
 
@@ -323,7 +323,7 @@ export default {
                 mapel: val, 
                 jenis: jenis,
                 ppn: ppn,
-                aspek: aspek
+                aspek: aspek,
             }
 
         }

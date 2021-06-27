@@ -15,7 +15,7 @@
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn rounded color="accent" @click="unduhFormat" light><v-icon>mdi-microsoft-excel</v-icon> Unduh Format</v-btn>
-                    <v-btn icon small dense @click="$emit('hide')" color="error"><v-icon>mdi-close</v-icon></v-btn>
+                    <v-btn icon small dense @click="close" color="error"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
                 <v-card-text>
                 	<v-container>
@@ -30,11 +30,14 @@
 			                                        dense 
 			                                        outlined 
 			                                        rounded
+                                                    ref="filenilai"
 			                                        prepend-icon="" 
 			                                        append-icon="mdi-microsoft-excel" 
 			                                        label="Pilih File" 
 			                                        accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 			                                        @change="onFilePicked"
+                                                    @click:clear="onFileCleared"
+                                                    v-model = "fileNilai"
 			                                    ></v-file-input>
                 							</v-col>
                 							<v-col cols="4">
@@ -96,6 +99,7 @@
 		name: 'ModalImport',
 		props: { dialog: Object},
 		data: () => ({
+            fileNilai: null,
 			search: '',
 			items: [],
 			headers: [],
@@ -106,6 +110,15 @@
             // snackbar: { show: false }
 		}),
 		methods: {
+            onFileCleared() {
+                // alert('hi')
+                this.fileNilai = null
+            },
+            close() {
+                this.items = []
+                this.headers = []
+                this.$emit('hide')
+            },
             unduhFormat() {
                 var siswas = []
                 var headers = []
@@ -170,32 +183,34 @@
 				})
 			},
 			onFilePicked(e) {
-				this.progress = true
+				
 				if ( e == null ) {
                     this.items = []
                     this.headers = []
-                    
-                }
-                var files = e.files;
-                var reader = new FileReader;
-                reader.onload = ev => {
-                    var data = ev.target.result
-                    var workbook = XLSX.read(data, {type: 'binary'})
-                    var wsname = workbook.SheetNames[0]
-                    const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-                    const lists = []
+                    return false
+                } else {
+                    this.progress = true
+                    var files = this.fileNilai.files;
+                    var reader = new FileReader;
+                    reader.onload = ev => {
+                        var data = ev.target.result
+                        var workbook = XLSX.read(data, {type: 'binary'})
+                        var wsname = workbook.SheetNames[0]
+                        const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
+                        const lists = []
 
-                    for ( var i = 0; i < ws.length; i++) {
-                        lists.push(ws[i])
+                        for ( var i = 0; i < ws.length; i++) {
+                            // lists.push(ws[i])
+                            ws[i] = Object.keys(ws[i]).reduce((c,k) => (c[k.toLowerCase().trim()] = ws[i][k], c), {})
+                            lists.push(ws[i])
+                        }
+                        this.items = lists
+                        const a = workbook.Sheets[wsname]
+                        const headers = this.getHeaders(a)
+                        this.headers = headers
                     }
-
-                    this.items = lists
-                    const a = workbook.Sheets[workbook.SheetNames[0]]
-                    const headers = this.getHeaders(a)
-                    this.headers = headers
-                    // console.log(lists)
+                    reader.readAsBinaryString(this.fileNilai)
                 }
-                reader.readAsBinaryString(e)
 			},
 			getHeaders(sheet) {
                 const headers = []
@@ -219,11 +234,11 @@
                         }
                         i++
                     }
-                    check.push( hdr )
+                    check.push( hdr.toLowerCase() )
                 }
                 var checks = this.dialog.headers.filter( value => check.includes(value))
                 checks.forEach(item => {
-                    headers.push({text: item, value: item})
+                    headers.push({text: item.toUpperCase(), value: item})
                 })
                 if (headers.length > 2) {
                     this.progress = false
@@ -236,7 +251,7 @@
                         color: 'error',
                         text: 'Kolom KD tidak sesuai. Mohon cek Ulang'
                     }
-                    x
+                    
                     return false
                 }
             },

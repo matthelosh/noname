@@ -61,6 +61,8 @@
                                         color="primary"
                                         type="submit"
                                         class="mx-auto"
+                                        :loading="loading"
+                                        :disabled="loading"
                                     >Login</v-btn>
                                 </v-row>
                             </v-form>
@@ -106,12 +108,14 @@ export default {
         salah: false,
         errMsg: '',
         password: 'password',
-        snackbar: false
+        snackbar: false,
+        loading: false
     }),
     methods: {
         login(e){
             e.preventDefault()
-            console.log(this.auth)
+            // console.log(this.auth)
+            this.loading = true
             axios({
                 method: 'post',
                 url: '/auth/login',
