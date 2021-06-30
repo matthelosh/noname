@@ -95,7 +95,6 @@
 </template>
 
 <script>
-	import Qrcode from 'v-qrcode/src/index'
 	import VueQrious from 'vue-qrious'
 	export default {
 		name: 'KartuSiswa',

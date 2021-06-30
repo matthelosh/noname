@@ -15,4 +15,9 @@ class Subtema extends Model
     {
     	return $this->belongsTo('App\Models\Tema');
     }
+
+    public function pemetaans()
+    {
+        return $this->hasMany(Pemetaan::class, 'subtema_id', 'kode_subtema');
+    }
 }

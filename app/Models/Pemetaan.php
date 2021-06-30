@@ -33,5 +33,10 @@ class Pemetaan extends Model
         return $this->belongsTo(Mapel::class, 'mapel_id', 'kode_mapel');
     }
 
+    public function kd()
+    {
+        return $this->belongsTo(Kd::class, 'kd_id', 'kode_kd');
+    }
+
     
 }

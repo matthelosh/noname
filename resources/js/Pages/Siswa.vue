@@ -351,13 +351,14 @@
                     axios({
                         method: 'post',
                         url: '/dashboard/siswa/'+siswa.id,
-                        data: {_method: 'delete'}
+                        data: { _method: 'delete'}
                     }).then(response => {
                         // alert(response.data.msg)
-                        this.snackbar = {show:true,color:'error',text: 'Data '+siswa.nama+' dihapus.' }
+                        this.snackbar = {show:true,color:'success', text: response }
                         this.getSiswas()
                     }).catch(err=>{
-                        alert(err.response.data.msg)
+                        this.snackbar = {show:true,color:'error', text: err.response.data.msg }
+                        if ( err.response.data.code == 401 || err.response.data.msg == 'Sesi Berakhir') window.location.href = '/'
                     })
                 }
             },

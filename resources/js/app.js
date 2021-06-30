@@ -11,6 +11,22 @@ Vue.prototype.$route = (...args) => route(...args).url()  // Tambahkan Baris Ini
 Vue.use(plugin)
 var token = document.head.querySelector('meta[name="csrf-token"]');
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+
+axios.interceptors.response.use(function(response) {
+    return response
+}, function( error ) {
+    if ( error.response.status === 419 || error.response.message === 'CSRF token mismatch.' || error.response.status === 401 || error.response.message === 'Unauthenticated.') {
+        // alert('Sesi Habis')
+         // window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+        return window.location.href = '/'
+        // window.location.reload()
+        //
+    }
+
+    return Promise.reject(error)
+})
+
+
 const el = document.getElementById('app')
 
 new Vue({

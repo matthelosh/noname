@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
 
-        \App\Http\Middleware\SessionExpired::class,
+        // \App\Http\Middleware\SessionExpired::class,
     ];
 
     /**
@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
-            \App\Http\Middleware\SessionExpired::class,
+            // \App\Http\Middleware\SessionExpired::class,
         ],
 
         'api' => [
@@ -73,5 +73,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\isAdmin::class,
         'guru' => \App\Http\Middleware\isGuru::class,
+        'sessionCheck' => \App\Http\Middleware\SessionExpired::class,
+        'ajax-session-expired' => \App\Http\Middleware\AjaxSessionExpiredMiddleware::class,
     ];
 }

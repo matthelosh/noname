@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
-        <v-dialog v-model="show" transition="dialog-bottom-transition" fullscreen hide-overlay>
-            <v-card>
+        <v-dialog v-model="show" fullscreen>
+            <v-card >
                 <v-toolbar dense>
                     <v-icon>mdi-teach</v-icon>
                     Pembelajaran Baru / Edit
@@ -9,81 +9,196 @@
                     <v-btn icon @click.stop="$emit('hide')" color="error"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
                 <v-card-text>
-                    <!-- <v-container> -->
-                        <v-row class="mt-5">
-                            <v-col cols="12" sm="8"> 
-                                <!-- <v-card>
-                                    <v-card-text> -->
-                                        <v-form @submit="save">
-                                            <v-row>
-                                                <v-col cols="4" class="text-right">Kode Pembelajaran:</v-col>
-                                                <v-col cols="8" >
-                                                    <v-text-field v-model="pembelajaran.kode_pembelajaran" placeholder="Kode Pembelajaran" dense hide-details prepend-inner-icon="mdi-qrcode"></v-text-field>
-                                                </v-col>
-                                                <v-col cols="4" class="text-right">Label Pembelajaran:</v-col>
-                                                <v-col cols="8">
-                                                    <v-text-field v-model="pembelajaran.label" placeholder="Label" dense hide-details prepend-inner-icon="mdi-tag-outline"></v-text-field>
-                                                </v-col>
-                                                <v-col cols="4" class="text-right"> Periode:</v-col>
-                                                <v-col cols="8">
-                                                    <v-select v-model="pembelajaran.periode_id" label="Periode" :items="periodes" item-key="value" item-text="text" dense hide-details prepend-inner-icon="mdi-calendar-range"></v-select>
-                                                </v-col>
-                                                <v-col cols="4" class="text-right" v-if="$page.props.user.role != 'wali'">Rombel:</v-col>
-                                                <v-col cols="8" v-if="$page.props.user.role != 'wali'">
-                                                   <v-select v-model="pembelajaran.rombel_id" label="Rombel" dense hide-details prepend-inner-icon="mdi-google-classroom" :items="rombels" item-text="text" item.value="value"></v-select>
-                                                </v-col>
-                                                <v-col cols="4" class="text-right"> Tematik?:</v-col>
-                                                <v-col cols="8">
-                                                    <v-checkbox label="Tematik" v-model="pembelajaran.is_tematik" dense hide-details @change="onTematik">
-                                                    </v-checkbox>
-                                                </v-col>
-                                                <v-col cols="4" class="text-right" v-if="pembelajaran.is_tematik">Tema:</v-col>
-                                                <v-col cols="4" v-if="pembelajaran.is_tematik">
-                                                    <v-select label="Tema" 
-                                                    :items="temas" item-text="text" item-value="value"
-                                                    v-model="pembelajaran.tema_id" dense hide-details  @change='onSelectTema'></v-select>
-                                                </v-col>
-                                                <v-col cols="4" v-if="pembelajaran.is_tematik">
-                                                    <v-select label="Sub Tema" :items="subtemas" item-value="value" item-text="text" v-model="pembelajaran.subtema_id" dense hide-details></v-select>
-                                                </v-col>
-                                                <v-col cols="12" sm="4">
-                                                    <v-file-input label="File RPP" outlined dense prepend-inner-icon="mdi-paperclip" prepend-icon="" @change="rppChange" accept="application/pdf"></v-file-input >
-                                                </v-col>
-                                                <v-col cols="12" sm="4">
-                                                    <v-file-input label="File Materi" outlined dense prepend-inner-icon="mdi-paperclip" prepend-icon="" accept="application/pdf" @change="onChanged($event, 'materi')"></v-file-input >
-                                                </v-col>
-                                                <v-col cols="12" sm="4">
-                                                    <v-file-input label="File Video" outlined dense prepend-inner-icon="mdi-video" prepend-icon="" accept="video/*"></v-file-input >
-                                                </v-col>
-                                                <!-- <v-col cols="12">Tanggal Pelaksanaan</v-col> -->
-                                                <v-col cols="12" sm="4">
-                                                    <v-date-picker label="Tanggal Pelaksanaan" v-model="pembelajaran.tanggal" :reactive="true" full-width class="elevation-3"></v-date-picker>
-                                                </v-col>
-                                                <v-col cols="12" sm="6">
-                                                    <v-textarea label="Keterangan" outlined  multiline></v-textarea>
-                                                </v-col>
-                                                <v-col cols="12" class="d-flex justify-center">
-                                                    <v-btn type="submit" color="primary">Simpan</v-btn>
+
+                    <v-stepper
+                        v-model="step"
+                        vertical
+                        class="mt-5"
+                        non-linear
+                        >
+                        <v-stepper-step
+                            :complete="step > 1"
+                            step="1"
+                            editable
+                            >
+                            Pilih Tematik
+                            <small>Pilih Tema jika tematik</small>
+                        </v-stepper-step>
+
+                        <v-stepper-content step="1">
+                            <v-card
+                                color="secondary"
+                                class="mb-12"
+                                height="200px"
+                            >
+                                <v-card-text>
+                                    <v-radio-group
+                                      v-model="pembelajaran.tematik"
+                                      row
+                                      @change="onTematik"
+                                    >
+                                      <v-radio
+                                        label="Tematik"
+                                        value="1"
+                                      ></v-radio>
+                                      <v-radio
+                                        label="Non Tematik"
+                                        value="0"
+                                      ></v-radio>
+                                    </v-radio-group>
+                                    <v-autocomplete
+                                    v-if="pembelajaran.tematik == '1'"
+                                        :items="temas"
+                                        v-model="pembelajaran.tema"
+                                        dense
+                                        label="Tema"
+                                        @change="onSelectTema"
+                                        rounded
+                                        outlined
+                                    >
+                                    </v-autocomplete>
+                                    <v-autocomplete
+                                        v-if="pembelajaran.tema"
+                                        :items="subtemas"
+                                        v-model="pembelajaran.subtema"
+                                        dense
+                                        label="Subtema"
+                                        rounded
+                                        outlined
+                                        @change="onSelectSubtema"
+                                        @input="tes"
+                                    >
+                                    </v-autocomplete>
+                                    
+                                </v-card-text>
+
+
+                            </v-card>
+                            <v-btn text color="warning">
+                                Batal
+                            </v-btn>
+                            <v-btn @click="step = 2" color="primary" :disabled="!pembelajaran.subtema" rounded>
+                                Lanjut
+                            </v-btn>
+                            
+                        </v-stepper-content>
+                        <v-stepper-step
+                            :complete="step > 2"
+                            step="2"
+                            editable
+                            >
+                            Pilih Muatan Pelajaran
+                            <small>Pilih Mapel</small>
+                        </v-stepper-step>
+
+                        <v-stepper-content step="2">
+                            <v-card
+                                color="secondary"
+                                class="mb-5"
+                                
+                            >
+                                <v-card-text>
+                                    <v-item-group multiple v-model="pembelajaran.mupels">
+                                        <v-container>
+                                            <v-row class="d-flex justify-center">
+                                                <v-col
+                                                    v-for="mapel in mapels"
+                                                    :key="mapel.kode_mapel"
+                                                    cols="12"
+                                                    md="2"
+
+                                                >
+                                                    <v-item v-slot="{ active, toggle }" :value="mapel">
+                                                        <v-card
+                                                        :color="active ? 'primary' : ''"
+                                                        class="d-flex align-center py-5"
+                                                        dark
+
+                                                        max-height="200"
+                                                        @click="toggle"
+
+                                                      >
+                                                      <div class="flex-grow-1 ">
+                                                        <div
+                                                            class=" text-center text-h5 "
+                                                          >
+                                                        <v-scroll-x-transition>
+                                                            <v-icon v-if="active" color="success">mdi-check-circle</v-icon>
+                                                        </v-scroll-x-transition>
+                                                        
+                                                            {{ mapel.label }}
+
+                                                        </div>
+                                                        <div v-if="active" class="text-center">
+                                                            <p v-for="kd in mapel.kds">{{ kd.kode_kd }}</p>
+                                                        </div>
+                                                    </div>
+                                                      </v-card>
+                                                    </v-item>
                                                 </v-col>
                                             </v-row>
-                                        </v-form>
-                                    <!-- </v-card-text>
-                                </v-card> -->
-                            </v-col>
-                            <v-col cols="12" sm="4">
-                                <v-card>
-                                    <v-card-text>
-                                        <h3>Kelengkapan</h3>
+                                        </v-container>
+                                    </v-item-group>
+                                </v-card-text>
+                            </v-card>   
+                            <v-btn @click="step = 3" color="primary" :disabled="pembelajaran.mupels.length < 1">
+                                Lanjut
+                            </v-btn>
+                            <v-btn text color="warning">
+                                Batal
+                            </v-btn>
+                        </v-stepper-content>
+                        <v-stepper-step
+                            :complete="step > 3"
+                            step="3"
+                            editable
+                        >Tujuan Pembelajaran
+                        <small>Tambahkan tujuan pembelajaran</small></v-stepper-step>
+                        <v-stepper-content step="3">
+                            <v-card color="secondary" class="mb-5">
+                                <v-card-text>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-row>
+                                                <v-col cols="12">
+                                                    <tiptap-vuetify v-model="pembelajaran.tujuans" label="Tujuan Pembelajaran" :extensions="extensions">
+                                                    </tiptap-vuetify>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col cols="6" v-html="pembelajaran.tujuans">
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+                            </v-card>
+                            <v-btn @click="step = 4" color="primary" :disabled="pembelajaran.tujuans.length < 1">
+                                Lanjut
+                            </v-btn>
+                            <v-btn text color="warning">
+                                Batal
+                            </v-btn>
+                        </v-stepper-content>
+                        <v-stepper-step
+                            :complete="step > 4"
+                            step="4"
+                            :editable="pembelajaran.kegiatan != ''"
+                        >
+                            Kegiatan Pembelajaran
+                            <small>Isi Kegiatan/Langkan Pembelajaran</small>
+                        </v-stepper-step>
+                        <v-stepper-content step="4">
+                            <v-card color="secondary" class="mb-5">
+                                <v-card-text>
+                                    <v-row>
+                                        <v-col cols="3">
+                                            <tiptap-vuetify v-model="pembelajaran.kegiatan.pembukaan" label="Pembukaan" :extensions="extensions"></tiptap-vuetify>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+                            </v-card>
+                        </v-stepper-content>
+                    </v-stepper>
 
-                                        <v-img>
-                                            <p>File RPP</p>
-                                            <object :data="fileRpp" width="100%"></object>
-                                        </v-img>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
-                         </v-row>
-                    <!--</v-container> -->
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -91,32 +206,103 @@
 </template>
 
 <script>
+    import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History } from 'tiptap-vuetify'
 export default {
     name: 'ModalPembelajaran',
     props: { dialog: Object },
+    components: { TiptapVuetify },
     data: () => ({
-        pembelajaran: {},
+        pembelajaran: {
+            tematik: false,
+            tema: null,
+            subtema: null,
+            mupels: [
+                // { mapel_id: 'bid', kds: '3.2' },
+                // { mapel_id: 'sbdp', kds: '3.2' },
+                // { mapel_id: 'mtk', kds: '3.6' },
+            ],
+            tujuans: '',
+            kegiatan: {
+                pendahuluan: { teks: '', durasi: ''},
+                inti: { teks: '', durasi: ''},
+                penutup: { teks: '', durasi: ''},
+            },
+            penilaian: '',
+            tanggal: '',
+        },
         periodes: [],
         rombels: [],
         fileRpp: null,
         temas: [],
         subtemas: [],
-        rawtemas:[]
+        rawtemas:[],
+        mapels: [],
+        step: 1,
+        extensions: [
+              History,
+              Blockquote,
+              Link,
+              Underline,
+              Strike,
+              Italic,
+              ListItem,
+              BulletList,
+              OrderedList,
+              [Heading, {
+                options: {
+                  levels: [1, 2, 3]
+                }
+              }],
+              Bold,
+              
+              
+              Paragraph,
+              HardBreak
+            ],
     }),
     methods: {
+        tes(e) {
+            console.log(e)
+        },
+        onSelectSubtema(e) {
+            axios({
+                method: 'post',
+                url: '/dashboard/pemetaan',
+                data: {
+                    kelas: this.$page.props.rombel.kelas_id,
+                    tema: this.pembelajaran.tema,
+                    subtema: this.pembelajaran.subtema
+                }
+            }).then( res => {
+                var mapels = []
+                res.data.pemetaans.forEach((item, index) => {
+                    item.no = index+1
+                    mapels.push({kode_mapel: item.mapel.kode_mapel, label: item.mapel.label, kds: item.kds})
+                })
+                this.mapels = mapels
+                // console.log(res.data.pemetaans)
+            }).catch( err => {
+
+            })
+        },
         onSelectTema(a){
             // console.log(a)
+            // alert(a)
             let subtemas =[]
             this.rawtemas.forEach(item=>{
                 if(item.tema_id == a){
-                    subtemas.push({value: item.subtema.kode_subtema, text: item.subtema.kode_subtema.substr(2,1)+'. '+item.subtema.teks})
+                    // subtemas.push({value: item.tema.subtemas.kode_subtema, text: item.tema.subtemas.kode_subtema.substr(2,1)+'. '+item.tema.subtemas.teks})
+                    item.tema.subtemas.forEach(subtema => {
+                        subtemas.push({ value: subtema.kode_subtema, text: subtema.kode_subtema.substr(2,1) + '. '+subtema.teks})
+                    })
                 }
             })
-            console.log(subtemas)
+            // console.log(subtemas)
             this.subtemas = subtemas
         },
         onTematik(e){
-           if (e == true) {
+            // alert(e)
+           if (e == '1') {
                axios({
                    method: 'post',
                    url: '/dashboard/tema?kelas='+this.$page.props.rombel.kelas_id
@@ -124,7 +310,7 @@ export default {
                    let temas = []
                    this.rawtemas = response.data.datas
                    response.data.datas.forEach(item => {
-                       temas.push({value: item.tema_id, text: item.tema_id.substr(1,1)+'.'+item.tema.teks})
+                       temas.push({value: item.tema_id, text: item.tema_id.substr(1,1)+'. '+item.tema.teks})
                    })
 
                    this.temas = temas

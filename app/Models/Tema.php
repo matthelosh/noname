@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tema extends Model
 {
     use HasFactory;
-    protected $fillable = ['kode_tema','teks'];
+    protected $fillable = ['kode_tema','teks', 'kelas_id'];
 
     public function subtemas()
     {

@@ -297,11 +297,12 @@
                this.ppn = ppn
                this.siswas.forEach(siswa=>{
                    if(siswa.nilais[index].kd_id == k[0]) {
+                       var $nilai = (siswa.nilais[index].nilai > 0 ? siswa.nilais[index].nilai : ( this.dialog.aspek == 'k1' || this.dialog.aspek == 'k2') ? 80 : 0)
                        nilais.push({
                            nisn: siswa.nisn,
                            nama: siswa.nama,
                            kd_id: kd,
-                           nilai: siswa.nilais[index].nilai
+                           nilai: $nilai
                        })
                    }
                       

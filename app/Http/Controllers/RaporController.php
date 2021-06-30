@@ -31,7 +31,7 @@ class RaporController extends Controller
     public function index(Request $request, $rombel)
     {
         try {
-            $rombel = Rombel::where('kode_rombel', $rombel)->with('siswas')->first();
+            $rombel = Rombel::where('kode_rombel', $rombel)->with('siswas.ortu')->first();
             return response()->json(['success' => true,'msg' => 'Data Siswa', 'siswas' => $rombel->siswas], 200);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], 500);

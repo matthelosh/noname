@@ -137,6 +137,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
     // Kd
     Route::group(['prefix' => 'kd',  'middleware' => ['admin']],function() {
         Route::post('/', [KdController::class, 'index'])->name('kd.index');
+        Route::delete('/', [KdController::class, 'destroy'])->name('kd.destroy');
+        Route::post('/impor', [KdController::class, 'impor'])->name('kd.impor');
+        Route::post('/store', [KdController::class, 'store'])->name('kd.store');
     });
 
     // Tema
@@ -154,6 +157,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
     Route::group(['prefix' => 'penilaian', 'middleware' => ['guru']], function(){
         Route::get('/', [PageController::class, 'penilaian'])->name('dashboard.penilaian');
         
+    });
+
+    Route::group(['prefix' => 'pemetaan'], function() {
+        Route::get('/', [PageController::class, 'pemetaan'])->name('dashbboard.pemetaan');
+        Route::post('/', [PemetaanController::class, 'index'])->name('pemetaan.index'); 
     });
 
     // Nilai

@@ -27,14 +27,14 @@
         <modal-pembelajaran :dialog="dialog" @hide="dialog={}"></modal-pembelajaran>
     </Layout>
 </template>
-
+ 
 <script>
 import Layout from '../Layout/Dashboard'
 import ModalPembelajaran from '../Components/Modals/ModalPembelajaran'
 
 export default {
     name: 'Pembelajaran',
-    components: { Layout, ModalPembelajaran },
+    components: { Layout, ModalPembelajaran, },
     props: {
         page_title: String,
         page: String

@@ -4,7 +4,7 @@
 			<h1 style="margin: 20px auto!important; text-align: center;">IDENTITAS PESERTA DIDIK</h1>
 			<hr>
 
-			<table class="bio">
+			<table class="bio mt-10" style="margin-left: 150px;margin-top: 50px;">
 				<tbody>
 					<tr>
 						<td>Nama Peserta Didik</td>
@@ -47,74 +47,74 @@
 						
 					</tr>
 					<tr>
-						<td>Ayah</td>
+						<td class="pl-10">Ayah</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.nama_ayah }}</td>
 					</tr>
 					<tr>
-						<td>Ibu</td>
+						<td class="pl-10">Ibu</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.nama_ibu }}</td>
 					</tr>
 					<tr>
 						<td>Pekerjaan Orang Tua</td>
 						<td>:</td>
-						<td>-</td>
+						<td></td>
 					</tr>
 					<tr>
-						<td>Ayah</td>
+						<td class="pl-10">Ayah</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.job_ayah }}</td>
 					</tr>
 					<tr>
-						<td>Ibu</td>
+						<td class="pl-10">Ibu</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.job_ibu }}</td>
 					</tr>
 					<tr>
 						<td>Alamat Orang tua</td>
 						<td>:</td>
-						<td>-</td>
+						<td></td>
 					</tr>
 					<tr>
-						<td>Jalan / Dusun</td>
+						<td class="pl-10">Jalan / Dusun</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.alamat }}</td>
 					</tr>
 					<tr>
-						<td>Kelurahan / Desa</td>
+						<td class="pl-10">Kelurahan / Desa</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.desa }}</td>
 					</tr>
 					<tr>
-						<td>Kecamatan</td>
+						<td class="pl-10">Kecamatan</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.kec }}</td>
 					</tr>
 					<tr>
-						<td>Kabupaten</td>
+						<td class="pl-10">Kabupaten</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.kab }}</td>
 					</tr>
 					<tr>
-						<td>Provinsi</td>
+						<td class="pl-10">Provinsi</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.prop }}</td>
 					</tr>
 					<tr>
 						<td>Wali Peserta Didik</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.nama_wali }}</td>
 					</tr>
 					<tr>
 						<td>Pekerjaan</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.job_wali }}</td>
 					</tr>
 					<tr>
 						<td>Alamat</td>
 						<td>:</td>
-						<td>-</td>
+						<td>{{ siswa.ortu.alamat_wali }}</td>
 					</tr>
 					
 				</tbody>
@@ -179,7 +179,7 @@
 		margin-left: 70%;
 	}
 	table.bio {
-		width:  50%;
+		width:  70%;
 		margin:  auto;
 		margin-bottom:  50px;
 	}

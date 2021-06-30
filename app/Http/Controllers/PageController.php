@@ -18,16 +18,6 @@ class PageController extends Controller
     }
 
     public function about() {
-        $datas = Pemetaan::where([
-            ['semester','=','1'],
-            ['pemetaans.mapel_id','=','ppkn'],
-            ['pemetaans.kelas_id','=','1'],
-            ['pemetaans.subtema_id','=','111'],
-            ['kds.mapel_id','=','ppkn']
-        ])->select('pemetaans.kd_id', 'kds.teks')->join('kds', function($join){
-            $join->on('kds.kode_kd','=','pemetaans.kd_id');
-        })->groupBy('pemetaans.kd_id', 'kds.teks')->get();
-        // dd($datas);
         return Inertia::render('About', ['page' => 'about', 'page_title' => 'About', 'datas'=>$datas]);
     }
 
@@ -73,6 +63,10 @@ class PageController extends Controller
         return Inertia::render('Sekolah', ['page' => 'sekolah', 'page_title' => 'Sekolah']);
     }
 
+    public function pemetaan(Request $request)
+    {
+        return Inertia::render('Pemetaan', ['page' => 'pemetaan', 'page_title' => 'Pemetaan']);
+    }
     public function pembelajaran(Request $request)
     {
         return Inertia::render('Pembelajaran', ['page' => 'pembelajaran', 'page_title' => 'Pembelajaran']);

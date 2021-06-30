@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Kd extends Model
 {
     use HasFactory;
-    protected $fillable = ['kode_kd','teks', 'mapel_id', 'kelas_id', 'agama'];
+    protected $fillable = ['kode_kd','teks', 'mapel_id', 'kelas_id', 'agama', 'aspek'];
 
     public function mapels()
     {
@@ -18,5 +18,10 @@ class Kd extends Model
     public function kelas()
     {
     	return $this->belongsTo(Kelas::class, 'kelas_id', 'kode_kelas');
+    }
+
+    public function pemetaans()
+    {
+        return $this->hasMany(Pemetaan::class, 'kd_id', 'kode_kd');
     }
 }
