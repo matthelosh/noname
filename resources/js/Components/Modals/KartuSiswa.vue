@@ -99,7 +99,7 @@
 	export default {
 		name: 'KartuSiswa',
 		props: {dialog:Object},
-		components: {Qrcode, VueQrious},
+		components: {VueQrious},
 		data: () => ({
 
 		}),
