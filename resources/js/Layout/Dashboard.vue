@@ -112,10 +112,10 @@ export default {
         setDefaultAvatar(e) {
             let dir = ''
             if ((this.$page.props.user.role)) {
-                dir = (this.$page.props.user.jk == 'l') ? '/img/users/user_l.png' : '/img/users/user_p.png'
+                dir = (this.$page.props.user.jk == 'l') ? '/storage/img/users/user_l.png' : '/storage/img/users/user_p.png'
                
             } else {
-                 dir = (this.$page.props.user.jk == 'l') ? '/img/siswas/siswa.png' : '/img/siswas/siswa.png'
+                 dir = (this.$page.props.user.jk == 'l') ? '/storage/img/siswas/siswa.png' : '/storage/img/siswas/siswa.png'
             }
 
 
