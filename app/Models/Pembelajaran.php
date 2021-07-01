@@ -9,7 +9,20 @@ class Pembelajaran extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'kode_pembelajaran','label','periode_id','rombel_id','guru_id','is_tematik','tema_id','subtema_id','rpp','materi','video','tanggal','keterangan','active'
+        'kode_pembelajaran',
+        'ke',
+        'periode_id',
+        'rombel_id',
+        'guru_id',
+        'tematik',
+        'tema_id',
+        'subtema_id',
+        'mupels',
+        'tujuan',
+        'kegiatan',
+        'tanggal',
+        'penilaian',
+        'active'
     ];
 
     public function guru()

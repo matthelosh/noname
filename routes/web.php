@@ -153,6 +153,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
     // Guru dan Wali
     Route::group(['prefix' => 'pembelajaran', 'middleware' => ['guru']], function(){
         Route::get('/', [PageController::class, 'pembelajaran'])->name('dashboard.pembelajaran');
+        Route::post('/', [PembelajaranController::class, 'index'])->name('pembelajaran.index');
+        Route::post('/store', [PembelajaranController::class, 'store'])->name('pembelajaran.store');
+
     });
     Route::group(['prefix' => 'penilaian', 'middleware' => ['guru']], function(){
         Route::get('/', [PageController::class, 'penilaian'])->name('dashboard.penilaian');

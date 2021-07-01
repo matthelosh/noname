@@ -24,4 +24,10 @@ class Tema extends Model
     {
         return $this->hasManyThrough(Pemetaan::class, Subtema::class, 'tema_id', 'subtema_id', 'kode_tema', 'kode_subtema');
     }
+
+    public function pembelajaran()
+    {
+        // return $this->hasMany(pembelajaran::class, 'tema_id', 'kode_tema');
+        return $this->hasManyThrough(Pembelajaran::class, Subtema::class, 'tema_id', 'subtema_id', 'kode_tema', 'kode_subtema');
+    }
 }

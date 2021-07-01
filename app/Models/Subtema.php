@@ -20,4 +20,9 @@ class Subtema extends Model
     {
         return $this->hasMany(Pemetaan::class, 'subtema_id', 'kode_subtema');
     }
+
+    public function pembelajaran()
+    {
+        return $this->hasMany(Pembelajaran::class, 'subtema_id', 'kode_subtema');
+    }
 }
