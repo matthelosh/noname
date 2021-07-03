@@ -2,3 +2,6 @@
 /.phpintel/
 /node_modules/
 /vendor/
+.env
+.DS_Store
+.editorconfig

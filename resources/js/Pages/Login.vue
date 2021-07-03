@@ -125,12 +125,13 @@ export default {
                 console.log(response.data)
                 window.location.href = '/dashboard'
             }).catch(err => {
-                console.log(err.response.data)
+                // console.log(err.response.data)
                 let old = err.response.data.old
                 Object.assign(this.auth, old)
                 this.salah = true
                 this.snackbar = true
                 this.errMsg = err.response.data.msg
+                this.loading = false
             })
         },
         togglePassword(val){
