@@ -24,7 +24,7 @@ class PemetaanController extends Controller
                 ])->with('mapel')->get();
                 foreach($petas as $peta)
                 {
-                    $kds = 'App\models\Kd'::where([
+                    $kds = 'App\Models\Kd'::where([
                         ['kelas_id','=', $request->kelas],
                         ['mapel_id','=', $peta->mapel_id],
                         ['kode_kd', 'LIKE', '%'.substr($peta->kd_id, 1)]
