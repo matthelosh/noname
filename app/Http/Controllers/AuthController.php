@@ -13,20 +13,37 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
-        $periode_aktif = 'App\Models\Periode'::where('active', true)->first();
+        try {
+            $credentials = $request->only('username', 'password');
+            $login = Auth::attempt($credentials);
+            if ($login) {
+                $agent = new Agent();
+                Session::put('periode', $this->periode_aktif()->kode_periode);
+                $usr = $this->user($request->username);
+                $usr->last_seen_at = Carbon::now()->format('Y-m-d H:i:s');
+                $usr->save();
+                AccessLog::create(['user_id' => $usr->userid, 'os' => $agent->platform(), 'browser' => $agent->browser(), 'ip' => $request->ip()]);
+                return response()->json(['success' => true], 200);
+            } else {
+                $user_count = User::count();
+                $msg = 'Username atau Sandi yang Anda Masukkan tidak sesuai.';
+                $msg = ($user_count < 1 ) ? 'Belum ada pengguna. Silahkan Hubungi Admin!' : 'Username atau Sandi yang Anda Masukkan tidak sesuai.';
+                
+                return response()->json(['success' => false, 'old' => $credentials, 'msg' => $msg], 403);
+            }
+        } catch (\Exception $e) {
 
-        $login = Auth::attempt($credentials);
-        if ($login) {
-            $agent = new Agent();
-            Session::put('periode', $periode_aktif->kode_periode);
-            $usr = $this->user($request->username);
-            $usr->last_seen_at = Carbon::now()->format('Y-m-d H:i:s');
-            $usr->save();
-            AccessLog::create(['user_id' => $usr->userid, 'os' => $agent->platform(), 'browser' => $agent->browser(), 'ip' => $request->ip()]);
-            return response()->json(['success' => true], 200);
-        } else {
-            return response()->json(['success' => false, 'old' => $credentials, 'msg' => 'Username atau Sandi yang Anda Masukkan tidak sesuai.'], 403);
+            return response()->json(['success' => false, 'msg' => $e->getMessage(), 'code' => $e->getCode()], 500);
+        }
+    }
+
+    public function periode_aktif()
+    {
+        try {
+            $periode_aktif = 'App\Models\Periode'::where('active', true)->first();
+            return $periode_aktif;
+        } catch (\Exception $e) {
+            dd($e);
         }
     }
 
@@ -40,6 +57,10 @@ class AuthController extends Controller
 
     public function user($username)
     {
-      return User::where('username', $username)->first();
+        try {
+          return User::where('username', $username)->first();
+      } catch (\Exception $e) {
+        dd($e);
+      }
     }
 }

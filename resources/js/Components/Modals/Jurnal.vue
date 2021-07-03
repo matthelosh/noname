@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-dialog v-model="dialog.show" fullscreen transition="dialog-bottom-transition">
+		<v-dialog v-model="dialog.show" fullscreen transition="dialog-bottom-transition" hide-overlay>
 			<v-card>
 				<v-toolbar dense>
 					<v-toolbar-title>JURNAL P<span class="d-none d-sm-inline">EMBELAJARAN</span> {{ dialog.jurnal.pembelajaran.ke }}</v-toolbar-title>

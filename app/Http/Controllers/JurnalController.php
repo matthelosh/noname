@@ -10,7 +10,9 @@ class JurnalController extends Controller
     public function index(Request $request) 
     {
         try {
-            $jurnals = Jurnal::whereHas('pembelajaran', function($q) {
+            $kode = $request->rombel;
+
+            $jurnals = Jurnal::where('pembelajaran_id', 'LIKE', $kode.':%')->whereHas('pembelajaran', function($q) {
                 $q->where('active',1);
             })->with('pembelajaran', function($p) {
                 $p->with('tema','subtema');

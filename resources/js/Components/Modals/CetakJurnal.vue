@@ -53,7 +53,7 @@
 											<td>
 												<span v-if="jurnal.pembelajaran.tematik">
 													<div v-for="materi in materis(jurnal.materi)">
-														<div style="border: none;">
+														<div style="margin-bottom: 10px;">
 															{{ materi.label }}:
 															<p v-html="materi.teks"></p>
 														</div>
@@ -147,7 +147,10 @@
 			getJurnals() {
 				axios({
 					method: 'post',
-					url: '/dashboard/jurnal'
+					url: '/dashboard/jurnal',
+					data: {
+						rombel: this.$page.props.rombel.kode_rombel,
+					}
 				}).then( res => {
 					let jurnals = []
 					res.data.jurnals.forEach((jurnal, index) => {

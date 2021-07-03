@@ -42,7 +42,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        $user = $request->user() ? User::where('id', $request->user()->id)->with('userable.rombel')->first() : null;
+        $user = $this->user($request);
         return array_merge(parent::share($request), [
             'appName' => config('app.name'),
 
@@ -65,64 +65,94 @@ class HandleInertiaRequests extends Middleware
         ]);
     }
 
-    public function mapel($role) {
-        $m = $role == 'gor' ? 'pjok' : ( // gpr | gkt | ghd | gbd | gkh
-                $role == 'gben'  ? 'ben' : 'pabp'
-            );
+    public function user($request)
+    {
+        try {
+             $user = $request->user() ? User::where('id', $request->user()->id)->with('userable.rombel')->first() : null;
+             return $user;
+        } catch (\Exception $e) {
+            return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
+        }
+    }
 
-        $mapel = 'App\Models\Mapel'::where('kode_mapel', $m)->first();
-        return $mapel;
+    public function mapel($role) {
+        try {
+            $m = $role == 'gor' ? 'pjok' : ( // gpr | gkt | ghd | gbd | gkh
+                    $role == 'gben'  ? 'ben' : 'pabp'
+                );
+
+            $mapel = 'App\Models\Mapel'::where('kode_mapel', $m)->first();
+            return $mapel;
+        } catch (\Exception $e) {
+            return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
+        }
     }
 
     public function menus($koderole)
     {
-        if($koderole != null) {
-            $role = Role::where('kode_role', $koderole)->first();
-            $roles= Role::where('kode_role', $koderole)->with('menus', function($q) use ($role){
-                $q->where('parent_id','=',0);
-                $q->with('children', function($c) use ($role){
-                    // $r = $role;
-                    $c->whereHas('roles', function($r) use ($role){
-                        $r->where('menu_role.role_id', '=', $role->id);
+        try {
+            if($koderole != null) {
+                $role = Role::where('kode_role', $koderole)->first();
+                $roles= Role::where('kode_role', $koderole)->with('menus', function($q) use ($role){
+                    $q->where('parent_id','=',0);
+                    $q->with('children', function($c) use ($role){
+                        // $r = $role;
+                        $c->whereHas('roles', function($r) use ($role){
+                            $r->where('menu_role.role_id', '=', $role->id);
+                        });
+                        $c->orderBy('label');
                     });
-                    $c->orderBy('label');
-                });
 
-            })->first();
-            // dd($roles->menus);
-            return $roles ? $roles->menus : null;
+                })->first();
+                // dd($roles->menus);
+                return $roles ? $roles->menus : null;
+            }
+        } catch (\Exception $e) {
+            return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
         }
     }
 
     public function rombel($userid, $role, $periode)
     {
-        $model = $role == 'siswa' ? 'App\Models\Siswa' : 'App\Models\Guru';
-        if ( $role == 'siswa') {
-            $user = $model::where('nisn', $userid)->with('rombel', function($q) use ($periode) {
-                $q->where('periode_id', $periode);
-            })->first();
-            $rombel = $user->rombel[0] ?? null;
-        } else {
-            $user = $model::where('nip', $userid)->with('rombel', function($q) use ($periode) {
-                $q->where('periode_id', $periode);
-            })->first();
-            $rombel = $user ? $user->rombel : null;
+            try {
+            $model = $role == 'siswa' ? 'App\Models\Siswa' : 'App\Models\Guru';
+            if ( $role == 'siswa') {
+                $user = $model::where('nisn', $userid)->with('rombel', function($q) use ($periode) {
+                    $q->where('periode_id', $periode);
+                })->first();
+                $rombel = $user->rombel[0] ?? null;
+            } else {
+                $user = $model::where('nip', $userid)->with('rombel', function($q) use ($periode) {
+                    $q->where('periode_id', $periode);
+                })->first();
+                $rombel = $user ? $user->rombel : null;
+            }
+            return $rombel??null;
+        } catch (\Exception $e) {
+            return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
         }
-        return $rombel??null;
     }
 
     public function periode_aktif($periode)
     {
-        $periode = Periode::where('kode_periode', $periode)->first();
-        return $periode;
+        try {
+            $periode = Periode::where('kode_periode', $periode)->first();
+            return $periode;
+        } catch (\Exception $e)
+        {
+           return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
+        }
     }
 
     public function sekolah()
     {
-        $sekolah = 'App\Models\Sekolah'::with('ks')->first();
-        // $sekolah = $sekolah ? $sekolah->with('ks') : null;
-        // dd($sekolah);
-        return $sekolah ?? null;
+        try {
+            $sekolah = 'App\Models\Sekolah'::with('ks')->first();
+            return $sekolah ?? null;
+        } catch (\Exception $e )
+        {
+            return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
+        }
 
     }
 }

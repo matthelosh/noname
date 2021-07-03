@@ -2,7 +2,9 @@
     <div id="app" light>
         <v-app>
             <div v-if="MainError.show" id="main-error">
-                <h1 class="text-center">Ada yang salah. Hubungi admin</h1>
+                <v-alert style="width:500px" dark bordered-outline border="left" color="error">
+                    <h1 class="text-center">{{ MainError.text }}</h1>
+                </v-alert>
             </div>
             <v-app-bar app dense color="primary" dark>
                 <v-btn icon @click.stop="mini = !mini">
@@ -107,7 +109,7 @@ export default {
             color: 'error',
             text: ''
         },
-        MainError: { show: false}
+        MainError: { show: false, text: '' }
     }),
     methods: {
         toggleDrawer(state) {
@@ -155,8 +157,8 @@ export default {
     created(){
         this.menus = this.$page.props.menus
         if((this.$page.props.user.role == 'wali' && this.$page.props.rombel == null) || (this.$page.props.user.role != 'wali' && this.$page.props.level == 'guru' && this.$page.props.mapel == null)) {
-            this.MainError = { show: true }
-        } 
+            this.MainError = { show: true, text: 'Data Rombel dan Mapel Semester ini belum disiapkan admin.' }
+        }
     },
     mounted() {
     }
@@ -182,7 +184,11 @@ export default {
         right:  0;
         bottom:  0;
         left:  0;
-        background: #33333378;
+        background: #636363ef;
+        color: white;
         z-index:  999999999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

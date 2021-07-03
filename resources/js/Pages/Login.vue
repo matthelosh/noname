@@ -1,98 +1,103 @@
 <template lang="html">
     <div id="app">
-    <v-app>
-        <v-container class="fill-height bg-body fluid" >
-            <v-row>
-                <v-col cols="12" class="d-sm-none d-flex justify-center">
-                     <img
-                    src="img/tutwuri.png"
-                    height="100"
-                    contain
-                    />
-                </v-col>
-                <v-col cols="12" sm="8" class="d-none d-sm-flex">
-                   <v-card width="100%">
-                        <v-card-text>
-                            <h1>SELAMAT DATANG !</h1>
-                        </v-card-text>
-                   </v-card>
-                </v-col>
-                <v-col cols="12" sm="4">
-                    <v-card  class="mx-auto ">
-                        <v-img 
-                            src="img/upacara.jpg"
-                            max-height="100"
-                            class="white--text align-end"
-                            gradient="to bottom left, #78967822, #5667fedd"
-                        >
-                           
-                            <v-card-title>Login</v-card-title>
-                            <v-card-subtitle class="white--text">{{ $page.props.sekolah ? $page.props.sekolah.nama_sekolah : 'Data Sekolah Kosong' }}</v-card-subtitle>
-                             <div class="media"></div>
-                        </v-img>
-                        
-                        <v-card-text>
-                            <v-form @submit="login">
-                                <v-text-field
-                                    solo
-                                    label="Username"
-                                    prepend-inner-icon="mdi-qrcode"
-                                    v-model="auth.username"
-                                    :error="salah"
-                                    required
-                                />
-                                <v-text-field 
-                                    solo
-                                    label="Password"
-                                    :type="password"
-                                    prepend-inner-icon="mdi-key"
-                                    v-model="auth.password"
-                                    :error="salah"
-                                    
-                                    required
-                                />
-
-                                <v-checkbox
-                                    @change="togglePassword"
-                                    label="Lihat Password"
+        <div v-if="MainError.show" id="main-error">
+            <v-alert style="width:500px" dark bordered-outline border="left" color="error">
+                <h1 class="text-center">{{ MainError.text }}</h1>
+            </v-alert>
+        </div>
+        <v-app>
+            <v-container class="fill-height bg-body fluid" >
+                <v-row>
+                    <v-col cols="12" class="d-sm-none d-flex justify-center">
+                         <img
+                        src="img/tutwuri.png"
+                        height="100"
+                        contain
+                        />
+                    </v-col>
+                    <v-col cols="12" sm="8" class="d-none d-sm-flex">
+                       <v-card width="100%">
+                            <v-card-text>
+                                <h1>SELAMAT DATANG !</h1>
+                            </v-card-text>
+                       </v-card>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-card  class="mx-auto ">
+                            <v-img 
+                                src="img/upacara.jpg"
+                                max-height="100"
+                                class="white--text align-end"
+                                gradient="to bottom left, #78967822, #5667fedd"
+                            >
+                               
+                                <v-card-title>Login</v-card-title>
+                                <v-card-subtitle class="white--text">{{ $page.props.sekolah ? $page.props.sekolah.nama_sekolah : 'Data Sekolah Kosong' }}</v-card-subtitle>
+                                 <div class="media"></div>
+                            </v-img>
+                            
+                            <v-card-text>
+                                <v-form @submit="login">
+                                    <v-text-field
+                                        solo
+                                        label="Username"
+                                        prepend-inner-icon="mdi-qrcode"
+                                        v-model="auth.username"
+                                        :error="salah"
+                                        required
                                     />
-                                <v-row class="d-flex justify-center">
-                                    <v-btn
-                                        color="primary"
-                                        type="submit"
-                                        class="mx-auto"
-                                        :loading="loading"
-                                        :disabled="loading"
-                                    >Login</v-btn>
-                                </v-row>
-                            </v-form>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-snackbar
-            v-model="snackbar"
-            color="error"
-            bottom
-            vertical
-            right
-            multi-line
-        >
-            {{errMsg}}
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                color="white"
-                text
-                v-bind="attrs"
-                @click="snackbar = false"
-                >
-                Tutup
-                <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
-    </v-app>
+                                    <v-text-field 
+                                        solo
+                                        label="Password"
+                                        :type="password"
+                                        prepend-inner-icon="mdi-key"
+                                        v-model="auth.password"
+                                        :error="salah"
+                                        
+                                        required
+                                    />
+
+                                    <v-checkbox
+                                        @change="togglePassword"
+                                        label="Lihat Password"
+                                        />
+                                    <v-row class="d-flex justify-center">
+                                        <v-btn
+                                            color="primary"
+                                            type="submit"
+                                            class="mx-auto"
+                                            :loading="loading"
+                                            :disabled="loading"
+                                        >Login</v-btn>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+            <v-snackbar
+                v-model="snackbar"
+                color="error"
+                bottom
+                vertical
+                right
+                multi-line
+            >
+                {{errMsg}}
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                    >
+                    Tutup
+                    <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </template>
+            </v-snackbar>
+        </v-app>
     </div>
 </template>
 
@@ -109,7 +114,8 @@ export default {
         errMsg: '',
         password: 'password',
         snackbar: false,
-        loading: false
+        loading: false,
+        MainError: { show: false }
     }),
     methods: {
         login(e){
@@ -122,15 +128,23 @@ export default {
                 data: this.auth
             }).then(response => {
                 // alert(response.data.success)
-                console.log(response.data)
+                // console.log(response.data)
                 window.location.href = '/dashboard'
             }).catch(err => {
-                // console.log(err.response.data)
-                let old = err.response.data.old
-                Object.assign(this.auth, old)
+                console.log(err.response)
+                if ( err.response.status === 403) {
+                    let old = err.response.data.old
+                    Object.assign(this.auth, old)
+                    this.errMsg = err.response.data.msg
+                } else if(err.response.status === 500 && (err.response.data.msg.search('Base table or view not found') > -1)) {
+                    this.errMsg = 'Ada kesalahan pada basis data. Silahkan hubungi admin.!'
+                } else {
+                    this.errMsg = err.response.data.msg
+                }
+                
                 this.salah = true
                 this.snackbar = true
-                this.errMsg = err.response.data.msg
+                
                 this.loading = false
             })
         },
@@ -147,15 +161,17 @@ export default {
     },
     created() {
         document.title = "Login"
-        if (this.$page.props.nouser) {
-            this.snackbar = true
-            this.errMsg = this.$page.props.nouser
-        }
+
+       var notable = 0
+       Object.values(this.$page.props).forEach((v,k) => {
+            if (v == 'No Table') notable += 1
+       })
+      if (notable > 0) this.MainError = { show: true, text: 'Ada Kesalahan Basis Data. Hubungi Admin' }
     }
 }
 </script>
 
-<style scoped>
+<style>
     #app {
         background-image: linear-gradient(127deg, rgb(58, 40, 52), rgb(75, 35, 63));
     }
@@ -170,5 +186,18 @@ export default {
         padding-bottom:  0!important;
         height: 0!important;
         display: none;
+    }
+    #main-error {
+        position: fixed;
+        top:  0;
+        right:  0;
+        bottom:  0;
+        left:  0;
+        height: 100vh;
+        background: #646464ef;
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

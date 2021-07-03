@@ -27,16 +27,17 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 Route::get('/login', function(){
+
     if(Auth::check()) {
         return redirect('/dashboard');
     }
-    $status = DB::table('status')->first();
-    if (!$status) {
-        $msg = 'Jalankan Seeder untuk mengisi data utama.';
-    } else {
-        $msg=null;
-    }
-    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login', 'nouser' => $msg]);
+    // $status = DB::table('status')->first();
+    // if (!$status) {
+    //     $msg = 'Jalankan Seeder untuk mengisi data utama.';
+    // } else {
+    //     $msg=null;
+    // }
+    return Inertia::render('Login', ['page' => 'login', 'page_title' => 'Login', /*'nouser' => $msg*/]);
 })->name('login');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
