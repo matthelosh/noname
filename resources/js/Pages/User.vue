@@ -34,6 +34,8 @@
                                 :search="cari"
                                 show-select
                                 v-model="selectedusers"
+                                :loading="loading"
+                                loading-text="Tunggu Sebentar"
                             >
                             <template v-slot:top>
                                 <v-row>
@@ -181,7 +183,7 @@
                                 <v-select v-model="newuser.role" :items="roles" item-value="value" item-text="text" outlined dense hide-details append-icon="mdi-account-hard-hat" label="Role"></v-select>
                             </v-col>
                             <v-col cols="12" class="d-flex justify-center">
-                                <v-btn class="flat" type="submit" light color="primary">Simpan</v-btn>
+                                <v-btn class="flat" type="submit" light color="primary" :loading="loading">Simpan</v-btn>
                             </v-col>
                             
                         </v-row>
@@ -305,6 +307,7 @@ export default {
             {id: 'l', text: 'Laki-laki'},
             {id: 'p', text: 'Perempuan'},
         ],
+        loading: false
     }),
     methods: {
         async reset(item) {
@@ -628,16 +631,19 @@ export default {
                 })
         },
         getUsers() {
+            this.loading = true
             axios({
                 method: 'post',
                 url: '/dashboard/user'
             }).then(response => {
                 this.items = response.data.users
                 this.grafik(response.data.users)
+                this.loading = false
             })
         }, 
         simpan(e) {
             e.preventDefault()
+            this.loading = true
             let user = this.newuser
             // console.log(user)
             axios({
@@ -650,6 +656,7 @@ export default {
                     text: response.data.msg,
                     color: 'success'
                 }
+                this.loading = false
                 this.getUsers()
                 this.dialog = false
             }).catch(err => {
@@ -658,6 +665,7 @@ export default {
                     text: err.response.data,
                     color: 'error'
                 }
+                 this.loading = false
                 // conso+le.log(err.response)
             })
         },
