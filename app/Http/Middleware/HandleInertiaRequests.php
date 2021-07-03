@@ -55,6 +55,7 @@ class HandleInertiaRequests extends Middleware
                 'message' => fn () => $request->session()->get('message')
             ],
             'role' => $request->user() ? $request->user()->role : null,
+            'level' => $request->user() ? $request->user()->level : null,
             'periode' => $request->session()->get('periode'),
             'sekolah' => $this->sekolah(),
             'periode_aktif' => $this->periode_aktif($request->session()->get('periode')),

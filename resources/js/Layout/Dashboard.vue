@@ -1,6 +1,9 @@
 <template lang="html">
     <div id="app" light>
         <v-app>
+            <div v-if="MainError.show" id="main-error">
+                <h1 class="text-center">Ada yang salah. Hubungi admin</h1>
+            </div>
             <v-app-bar app dense color="primary" dark>
                 <v-btn icon @click.stop="mini = !mini">
                     <v-icon>mdi-chevron-double-{{  (mini == false) ? 'left': 'right'}}</v-icon>
@@ -103,7 +106,8 @@ export default {
             show: false,
             color: 'error',
             text: ''
-        }
+        },
+        MainError: { show: false}
     }),
     methods: {
         toggleDrawer(state) {
@@ -150,6 +154,9 @@ export default {
     },
     created(){
         this.menus = this.$page.props.menus
+        if((this.$page.props.user.role == 'wali' && this.$page.props.rombel == null) || (this.$page.props.user.role != 'wali' && this.$page.props.level == 'guru' && this.$page.props.mapel == null)) {
+            this.MainError = { show: true }
+        } 
     },
     mounted() {
     }
@@ -167,5 +174,15 @@ export default {
     } */
     .pink {
         background: coral!important;
+    }
+
+    #main-error {
+        position: fixed;
+        top:  0;
+        right:  0;
+        bottom:  0;
+        left:  0;
+        background: #33333378;
+        z-index:  999999999999;
     }
 </style>

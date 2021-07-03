@@ -148,7 +148,7 @@ export default {
                 }
             }).then( res => {
                 var items = []
-                if( res.data.pembelajarans.length > 0) {
+                if( res.data.pembelajarans) {
                     res.data.pembelajarans.forEach((item, index) => {
                         item.no = index+1
                         items.push(item)
