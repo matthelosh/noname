@@ -33,6 +33,7 @@
         "tiptap-vuetify": "^2.24.0",
         "vue": "^2.6.12",
         "vue-apexcharts": "^1.6.0",
+        "vue-capture": "^0.1.7",
         "vue-qrious": "^1.6.0",
         "vuetify": "^2.4.6",
         "xlsx": "^0.16.9"

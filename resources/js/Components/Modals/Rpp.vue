@@ -11,7 +11,7 @@
 			<v-card-text>
 				<v-container>
 					<v-row>
-						<v-col cols="9">
+						<v-col cols="12" sm="9">
 							<v-sheet elevation="3" class="my-5" style="padding: 50px 100px!important;" id="print">
 								<v-container>
 									<v-row>

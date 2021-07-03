@@ -1,5 +1,5 @@
 <template lang="html">
-    <v-navigation-drawer app :permanent="$vuetify.breakpoint.mdAndUp" v-model="drawer" class="side" :mini-variant="isMini"  color="secondary">
+    <v-navigation-drawer app :permanent="$vuetify.breakpoint.mdAndUp" v-model="drawer" class="side" :mini-variant="isMini"  color="tertiary">
         <v-list-item primary class="side-brand" >
             <v-list-item-content>
                 <v-list-item-title  class="title ">{{ $page.props.appName }}</v-list-item-title>
@@ -53,8 +53,8 @@
                 <div v-else>
                 <inertia-link :href="menu.url" class="inertia-link" >
                     <v-list-item
-                        :class="(menu.url == path )? 'active': ''"
-                        :dark="(menu.url == path )"
+                        :class="(menu.url == path )? 'active elevation-3': ''"
+                        :dark="(menu.url == path ) ? true : false"
                         >
                         <!-- v-show="(menu.role.includes($page.props.user.role) || menu.role.includes('all'))"
                     > -->

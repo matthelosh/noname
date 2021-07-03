@@ -167,6 +167,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::post('/', [PemetaanController::class, 'index'])->name('pemetaan.index'); 
     });
 
+    // Jurnal KBM
+    Route::group(['prefix' => 'jurnal'], function() {
+        Route::post('/', [JurnalController::class, 'index'])->name('jurnal.index');
+        Route::post('/create', [JurnalController::class, 'store'])->name('jurnal.store');
+        Route::post('/show', [JurnalController::class, 'show'])->name('jurnal.show');
+    });
+
     // Nilai
     Route::group(['prefix' => 'nilai'], function() {
         Route::post('/', [NilaiController::class, 'index'])->name('nilai.index');
