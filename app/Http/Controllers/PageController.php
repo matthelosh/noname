@@ -90,4 +90,9 @@ class PageController extends Controller
     {
         return Inertia::render('AksesLog', ['page' => 'akses_log', 'page_title' => 'Catatan Akses']);
     }
+
+    public function menu(Request $request)
+    {
+        return Inertia::render('Setting/Menu', ['page' => 'menu', 'page_title' => 'Menu']);
+    }
 }

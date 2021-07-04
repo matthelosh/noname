@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="dialog" max-width="500" @keydown.esc="cancel" @keydown.enter="agree">
-        <v-card color="secondary" >
+        <v-card color="secondary" dark>
             <v-toolbar dense flat color="warning" dark>
                 <v-toolbar-title>{{ title }}</v-toolbar-title>
             </v-toolbar>

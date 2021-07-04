@@ -216,6 +216,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function() {
         Route::post('/tanggalrapor', [TanggalraporController::class, 'index'])->name('setting.tanggalrapor'); 
         Route::post('/tanggalrapor/simpan', [TanggalraporController::class, 'store'])->name('setting.tanggalrapor.store'); 
         Route::delete('/tanggalrapor/{id}', [TanggalraporController::class, 'destroy'])->name('setting.tanggalrapor.destroy'); 
+
+        // Menu
+        Route::group(['prefix' => 'menu', 'middleware' => ['admin']], function() {
+            Route::get('/', [PageController::class, 'menu'])->name('dashboard.menu');
+            Route::post('/', [MenuController::class, 'index'])->name('menu.index');
+            Route::post('/store', [MenuController::class, 'store'])->name('menu.store');
+            Route::delete('/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+        });
     });
 
     Route::group(['prefix' => 'logs', 'middleware' => ['admin']], function() {
