@@ -20,6 +20,7 @@
  								:loading="loading"
 							>
 								<template v-slot:item.no="{item}"><span>{{ item.no }}</span></template>
+								<template v-slot:item.parent="{item}"><span>{{ item.parent ? item.parent.label : 'Induk' }}</span></template>
 								<template v-slot:item.label="{item}">
 									<v-btn text color="info" small @click="edit(item)">{{ item.label }}</v-btn>
 								</template>
@@ -48,12 +49,16 @@
 					<v-container>
 					<v-row>
 						<v-col cols="12" sm="6">
+							<v-select v-model="selectedmenu.parent_id" :items="parents" item-text="label" item-value="id" dense rounded outlined label="Induk" hide-details></v-select>
+						</v-col>
+						<v-col cols="12" sm="6">
 							<v-text-field v-model="selectedmenu.label" dense rounded outlined label="Label Menu" hide-details></v-text-field>
 						</v-col>
+						
 						<v-col cols="12" sm="6">
 							<v-text-field v-model="selectedmenu.url" dense rounded outlined label="URL Menu" hide-details></v-text-field>
 						</v-col>
-						<v-col cols="12" sm="8">
+						<v-col cols="12" sm="6">
 							<v-text-field v-model="selectedmenu.icon" dense rounded outlined label="Ikon Menu" hide-details :prepend-inner-icon="'mdi-'+selectedmenu.icon"></v-text-field>
 						</v-col>
 						<v-col cols="12" >
@@ -83,6 +88,7 @@
 			menus: [],
 			headers: [
 				{ text: 'No', value: 'no' },
+				{ text: 'Induk', value: 'parent' },
 				{ text: 'Label', value: 'label' },
 				{ text: 'URL', value: 'url' },
 				{ text: 'Ikon', value: 'icon' },
@@ -162,7 +168,13 @@
 				})
 			}
 		},
-		computed: {},
+		computed: {
+			parents() {
+				return this.menus.filter(menu => {
+					return menu.parent_id == '0'
+				})
+			}
+		},
 		mounted() {
 			this.getMenus()
 		}

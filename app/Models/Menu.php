@@ -16,6 +16,11 @@ class Menu extends Model
         return $this->hasMany('App\Models\Menu', 'parent_id', 'id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Menu::class, 'parent_id', 'id');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'menu_role');

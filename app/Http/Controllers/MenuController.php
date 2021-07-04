@@ -11,7 +11,7 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         try {
-            $menus = Menu::with('roles')->get();
+            $menus = Menu::with('roles')->with('parent')->get();
             $roles = Role::all();
             return response()->json(['success' => true, 'menus' => $menus, 'roles' => $roles], 200);
         } catch (\Exception $e) {
@@ -23,6 +23,7 @@ class MenuController extends Controller
     {
         try {
             $menu = ($request->id) ? Menu::find($request->id) : new Menu();
+            $menu->parent_id = $request->parent_id ?? '0';
             $menu->label = $request->label;
             $menu->url = $request->url;
             $menu->icon = $request->icon;
