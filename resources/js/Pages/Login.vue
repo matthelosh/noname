@@ -127,12 +127,14 @@ export default {
                 url: '/auth/login',
                 data: this.auth
             }).then(response => {
-                // alert(response.data.success)
-                // console.log(response.data)
-                window.location.href = '/dashboard'
+                // alert(response.data.role)
+                // console.log(response.data)const 
+                const roles = ['admin','wali', 'siswa']
+                const rute = roles.includes(response.data.role) ? response.data.role : 'mapel'
+                window.location.href = '/'+ rute
             }).catch(err => {
-                console.log(err.response)
-                if ( err.response.status === 403) {
+                console.log(err)
+                if ( err.response.data.status === 403) {
                     let old = err.response.data.old
                     Object.assign(this.auth, old)
                     this.errMsg = err.response.data.msg

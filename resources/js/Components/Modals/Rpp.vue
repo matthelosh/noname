@@ -12,7 +12,7 @@
 				<v-container>
 					<v-row>
 						<v-col cols="12" sm="9">
-							<v-sheet elevation="3" class="my-5" style="padding: 50px 100px!important;" id="print">
+							<v-sheet elevation="3" class="my-5" style="padding: 50px 100px!important;" id="print" light>
 								<v-container>
 									<v-row>
 										<v-col cols="12" class="text-center" style="border-bottom: 5px double black;">
@@ -88,10 +88,15 @@
 													</td>
 													<td style="text-align: center">
 														{{ $page.props.sekolah.kec }}, {{ tanggal }} <br>
-														Guru Kelas {{ dialog.rpp.rombel.label }}
+														<span v-if="$page.props.user.role == 'wali'">
+															Guru Kelas {{ dialog.rpp.rombel.label }}
+														</span>
+														<span v-else>
+															Guru Mapel
+														</span>
 														<br><br><br><br>
-														<b><u>{{ dialog.rpp.guru.name }}</u></b><br>
-														NIP. {{ dialog.rpp.guru.nip }}
+														<b><u>{{ $page.props.user.name }}</u></b><br>
+														NIP. {{ $page.props.user.nip }}
 													</td>
 												</tr>
 											</table>
@@ -163,7 +168,7 @@
 				return JSON.parse(this.dialog.rpp.kegiatan)
 			},
 			tanggal() {
-				return moment(this.dialog.rpp.tanggal).format('Do MMMM YYYY')
+				return moment(this.dialog.rpp.created_at).format('Do MMMM YYYY')
 			}
 		},
 		mounted() {
@@ -192,6 +197,9 @@
 	}
 
 	@media print {
+		@page {
+			size:  portrait;
+		}
 		body {
 			margin: 0.5cm 1cm 0.5cm 1.5cm;
 		}

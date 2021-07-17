@@ -14,7 +14,7 @@
         "axios": "^0.21",
         "deepmerge": "^4.2.2",
         "laravel-mix": "^6.0.20",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "postcss": "^8.3.4",
         "sass": "^1.32.13",
         "sass-loader": "^12.1.0",

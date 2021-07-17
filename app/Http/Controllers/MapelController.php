@@ -26,7 +26,19 @@ class MapelController extends Controller
     public function store(Request $request)
     {
     	try {
-    		Mapel::create($request->all());
+    		Mapel::updateOrCreate(
+                [
+                    'id' => $request->id ?? null,
+                    'kode_mapel' => $request->kode_mapel,
+                ],
+                [
+                    'nama_mapel' => $request->nama_mapel,
+                    'label' => $request->label,
+                    'kategori' => $request->kategori,
+                    'kelompok' => $request->kelompok,
+                    'deskripsi' => $request->deskripsi
+                ]
+            );
     		return response()->json(['success' => true, 'msg' => 'Data Mapel Disimpan' ], 200);
     	} catch (\Exception $e) {
     		return response()->json(['success' => false, 'msg' =>  $e->getMessage()], 501);    
@@ -45,6 +57,19 @@ class MapelController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'msg' => $e->getMessage()], 501);
             
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        try {
+            $mapel = Mapel::find($id);
+            $mapel->kelas()->detach();
+            $mapel->delete();
+
+            return response()->json(['success' => true, 'msg' => 'Mapel dihapus.'], 200);
+        } catch (\Exception $e) {
+            dd($e);
         }
     }
 }

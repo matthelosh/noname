@@ -1,12 +1,12 @@
 <template lang="html">
-    <div id="app" light>
+    <div id="app">
         <v-app>
             <div v-if="MainError.show" id="main-error">
                 <v-alert style="width:500px" dark bordered-outline border="left" color="error">
                     <h1 class="text-center">{{ MainError.text }}</h1>
                 </v-alert>
             </div>
-            <v-app-bar app dense color="primary" dark>
+            <v-app-bar app dense >
                 <v-btn icon @click.stop="mini = !mini">
                     <v-icon>mdi-chevron-double-{{  (mini == false) ? 'left': 'right'}}</v-icon>
                 </v-btn>

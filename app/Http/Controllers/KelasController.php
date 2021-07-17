@@ -31,13 +31,23 @@ class KelasController extends Controller
     	}
     }
 
-    public function attach(Request $request, $id)
+    public function attachMapel(Request $request, $id)
     {
     	try {
     		Kelas::find($id)->mapels()->attach($request->mapels);
     		return response()->json(['success' => true, 'msg' => "Data Mapel Ditambahkan."], 200);
     	} catch (\Exception $e) {
-    		return response()->json(['success' => false, 'msg' => $e->getMessage], 502);
+    		return response()->json(['success' => false, 'msg' => $e->getMessage()], 502);
+    	}
+    }
+    
+    public function detachMapel(Request $request, $id)
+    {
+    	try {
+    		Kelas::find($id)->mapels()->detach($request->mapels);
+    		return response()->json(['success' => true, 'msg' => "Data Mapel Dikeluarkan."], 200);
+    	} catch (\Exception $e) {
+    		return response()->json(['success' => false, 'msg' => $e->getMessage()], 502);
     	}
     }
 

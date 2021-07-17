@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'guru' => \App\Http\Middleware\isGuru::class,
         'sessionCheck' => \App\Http\Middleware\SessionExpired::class,
         'ajax-session-expired' => \App\Http\Middleware\AjaxSessionExpiredMiddleware::class,
+        'checkRole' => \App\Http\Middleware\CheckRole::class,
     ];
 }

@@ -184,14 +184,11 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 	table.table-jurnal {
 		border-collapse: collapse;
 		td {
 			padding: 0 5px;
 		}
-	}
-	@media print {
-		@page {size:landscape}
 	}
 </style>

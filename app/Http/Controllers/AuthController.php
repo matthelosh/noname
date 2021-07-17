@@ -22,8 +22,9 @@ class AuthController extends Controller
                 $usr = $this->user($request->username);
                 $usr->last_seen_at = Carbon::now()->format('Y-m-d H:i:s');
                 $usr->save();
+                $request->session()->put(['user' => $usr]);
                 AccessLog::create(['user_id' => $usr->userid, 'os' => $agent->platform(), 'browser' => $agent->browser(), 'ip' => $request->ip()]);
-                return response()->json(['success' => true], 200);
+                return response()->json(['success' => true, 'role' => $usr->role], 200);
             } else {
                 $user_count = User::count();
                 $msg = 'Username atau Sandi yang Anda Masukkan tidak sesuai.';

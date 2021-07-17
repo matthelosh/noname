@@ -16,22 +16,31 @@ class PembelajaranController extends Controller
     public function index(Request $request)
     {
         try {
-            // $datas = Pembelajaran::where('rombel_id', $request->rombel['kelas_id'])->get();
-            $rombel_id = $request->rombel['kode_rombel'];
-            // $datas = Tema::where([
-            //     ['kelas_id','=', $request->rombel['kelas_id']]
-            // ])->whereHas('subtemas.pembelajaran', function($q) use($rombel_id) {
-            //     $q->where('pembelajarans.rombel_id','=',$rombel_id);
+            if($request->role == 'wali') {
+                // $datas = Pembelajaran::where('rombel_id', $request->rombel['kelas_id'])->get();
+                $rombel_id = $request->rombel['kode_rombel'] ?? '21221-1';
+                // $datas = Tema::where([
+                //     ['kelas_id','=', $request->rombel['kelas_id']]
+                // ])->whereHas('subtemas.pembelajaran', function($q) use($rombel_id) {
+                //     $q->where('pembelajarans.rombel_id','=',$rombel_id);
 
-            // })->with('subtemas.pembelajaran')->get();
+                // })->with('subtemas.pembelajaran')->get();
 
-            $datas = Tema::whereHas('pembelajaran', function($q) use ($rombel_id) {
-                $q->where('rombel_id','=', $rombel_id);
-            })->with('subtemas', function($s){
-                $s->whereHas('pembelajaran')->with('pembelajaran', function($p) {
-                    $p->with('guru', 'rombel');
-                });
-            })->orderBy('kode_tema')->get();
+                $datas = Tema::whereHas('pembelajaran', function($q) use ($rombel_id) {
+                    $q->where('rombel_id','=', $rombel_id);
+                })->with('subtemas', function($s){
+                    $s->whereHas('pembelajaran')->with('pembelajaran', function($p) {
+                        $p->with('guru', 'rombel');
+                    });
+                })->orderBy('kode_tema')->get();
+            } else {
+
+                $datas = Pembelajaran::where([
+                    ['periode_id','=',$request->periode],
+                    ['guru_id','=', $request->guru]
+                ])->get();
+                // dd($datas);
+            }
             return response()->json(['success' => true, 'pembelajarans' => $datas], 200);
         } catch (\Exception $e) {
             dd($e);
@@ -64,7 +73,7 @@ class PembelajaranController extends Controller
                     'ke' => $request->ke,
                     'kode_pembelajaran' => $request->rombel.':'.$request->tematik.':'.$request->subtema.':'.$request->ke,
                     'periode_id' => $request->periode,
-                    'rombel_id' => $request->rombel,
+                    'rombel_id' => $request->rombel_id,
                     'guru_id' => $request->guru,
                     'tematik' => $request->tematik,
                     'tema_id' => $request->tema,

@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\User;
 use App\Models\Guru;
 use App\Models\Periode;
+use App\Models\Rombel;
 use Illuminate\Session\Store;
 use Session;
 class HandleInertiaRequests extends Middleware
@@ -60,6 +61,7 @@ class HandleInertiaRequests extends Middleware
             'sekolah' => $this->sekolah(),
             'periode_aktif' => $this->periode_aktif($request->session()->get('periode')),
             'rombel' => $this->rombel($request->user()->userid??null, $request->user() ? $request->user()->role : null, $request->session()->get('periode')),
+            'rombels' => $this->rombels($request),
             'mapel' => ($request->user() && $request->user()->role != 'admin' && $request->user()->role != 'wali') ? $this->mapel($request->user()->role) : null,
             'session' => (time() - $request->session()->get('lastActivityTime')) .' - ' . config('session.lifetime')
         ]);
@@ -94,7 +96,7 @@ class HandleInertiaRequests extends Middleware
             if($koderole != null) {
                 $role = Role::where('kode_role', $koderole)->first();
                 $roles= Role::where('kode_role', $koderole)->with('menus', function($q) use ($role){
-                    $q->where('parent_id','=',0);
+                    $q->where('parent_id','=',0)->orderBy('id');
                     $q->with('children', function($c) use ($role){
                         // $r = $role;
                         $c->whereHas('roles', function($r) use ($role){
@@ -109,6 +111,18 @@ class HandleInertiaRequests extends Middleware
             }
         } catch (\Exception $e) {
             return ($e->getCode() == '42S02') ? 'No Table' : $e->getMessage();
+        }
+    }
+
+    public function rombels($request)
+    {
+        try {
+            if(!$request->periode) {
+                $rombels = Rombel::where('periode_id', $request->session()->get('periode'))->get();
+                return $rombels;
+            }
+        } catch (\Exception $e) {
+            dd($e);
         }
     }
 

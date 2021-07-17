@@ -14,7 +14,7 @@ class AddKkmToKelasMapel extends Migration
     public function up()
     {
         Schema::table('kelas_mapel', function (Blueprint $table) {
-            $table->integer('kkm');
+            $table->integer('kkm')->default(75);
         });
     }
 

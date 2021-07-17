@@ -15,15 +15,16 @@ class TanggalraporController extends Controller
     public function index(Request $request)
     {
         try {
-            if(isset($reques->mode)) {
-                switch($request->mode) {
-                    default:
-                        $tanggals = [];
-                        break;   
-                }
-            } else {
+            // if(isset($request->mode)) {
+            //     switch($request->mode) {
+            //         default:
+            //             $tanggals = [];
+            //             break;   
+            //     }
+            // } else {
                 $tanggals = TanggalRapor::all();
-            }
+            // }
+            // dd('hi');
 
             return response()->json(['success' => true, 'msg' => 'Data Tanggal Rapor', 'tanggals' => $tanggals], 200);
         } catch (\Exception $e) {
@@ -31,6 +32,18 @@ class TanggalraporController extends Controller
         }
     }
 
+    public function show(Request $request) 
+    {
+        try {
+            $tanggal = TanggalRapor::where([
+                ['periode_id','=', $request->periode ],
+                ['jenis_rapor','=',$request->jenis_rapor]
+            ])->first();
+            return response()->json(['success' => true, 'msg' => 'Data Tanggal Rapor', 'tanggal' => $tanggal], 200);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
     /**
 
     /**

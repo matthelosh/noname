@@ -8,18 +8,22 @@ import 'vuetify/dist/vuetify.min.css'
 
 // import moment from './moment.js'
 const vuetify = new Vuetify()
-
+// moment.locale('id')
 Vue.use(Vuetify);
 Vue.use(TiptapVuetifyPlugin, {
     vuetify, iconsGroup: 'mdi'
 })
+
+var d = new Date()
+var jam = d.getHours()
+var dark =  (jam < 6 || jam > 18)
 
 export default new Vuetify({
     icons: {
         iconfont: 'mdi'
     },
     theme: {
-        dark: false,
+        dark: dark,
         themes: {
             // light: {
             //     primary: '#102542',

@@ -26,19 +26,19 @@
         </v-list>
         <v-list dense nav >
             
-            <v-list-item-group  v-for="(menu,i) in menus" :key="i" >
+            <v-list-item-group  v-for="(menu,i) in menus" :key="i">
                 <div v-if="child(menu)" class="inertia-link" >
-                    <v-list-group  :prepend-icon="'mdi-'+menu.icon" :value="checkChild(menu)" active-class="aktif" >  
+                    <v-list-group  :prepend-icon="'mdi-'+menu.icon" :value="checkChild(menu)" active-class="aktif">  
                         <!-- v-show="(menu.role.includes($page.props.user.role) || menu.role.includes('all'))"> -->
                         <template v-slot:activator class="buka"> 
                             <v-list-item-title >{{menu.label}}</v-list-item-title>
                         </template>
                         <div v-for="(child, s) in menu.children" :key="s" >
-                            <inertia-link :href="child.url" class="inertia-link" >
+                            <inertia-link :href="rute(child.url)" class="inertia-link" >
                                 <v-list-item
-                                    :class="(child.url == path ) ? 'active elevation-3' : ''"
+                                    :class="(rute(child.url) == path ) ? 'active elevation-3' : ''"
                                     
-                                    :dark="(child.url == path)">
+                                    >
                                     <!-- v-show="(child.role.includes($page.props.user.role) || child.role.includes('all'))"
                                 > -->
                                     <v-list-item-icon>
@@ -51,10 +51,10 @@
                     </v-list-group>
                 </div>
                 <div v-else>
-                <inertia-link :href="menu.url" class="inertia-link" >
+                <inertia-link :href="rute(menu.url)" class="inertia-link" >
                     <v-list-item
-                        :class="(menu.url == path )? 'active elevation-3': ''"
-                        :dark="(menu.url == path ) ? true : false"
+                        :class="(rute(menu.url) == path )? 'active elevation-3': ''"
+                        
                         >
                         <!-- v-show="(menu.role.includes($page.props.user.role) || menu.role.includes('all'))"
                     > -->
@@ -89,8 +89,10 @@
             mini: Boolean
         },
         data: () => ({
-            path: window.location.pathname,
-            sidemenus: []
+            // path: window.location.pathname,
+            sidemenus: [],
+            active: false,
+            locpath: false
             // mini: false,
             // child: true
         }),
@@ -104,7 +106,7 @@
                 let children = menu.children
                 let benar = false
                 children.forEach(ch => {
-                    if (this.path == ch.url) benar = true
+                    if (this.path == this.rute(ch.url)) benar = true
                 })
 
                 return benar
@@ -125,12 +127,19 @@
                 // alert(text.includes('ks'))
             },
             setDefaultAvatar(e) {
-            
-            var foto = (this.$page.props.user.jk == 'l') ? 'user_l.png' : 'user_p.png'
-            e.target.src = '/storage/img/users/'+foto
-            if(this.$page.props.page_title == 'Dashboard') {
+                var foto = (this.$page.props.user.jk == 'l') ? 'user_l.png' : 'user_p.png'
+                e.target.src = '/storage/img/users/'+foto
+                if(this.$page.props.page_title == 'Dashboard') {
+                }
+            },
+            rute(url) {
+                const roles = ['admin','wali','siswa']
+                var rute = (roles.includes(this.$page.props.user.role)) ? '/'+this.$page.props.user.role+url : '/mapel'+url
+                return rute
+            },
+            checkSubmenu(item) {
+
             }
-        }
         },
         computed: {
             drawer: {
@@ -157,7 +166,14 @@
                     return item
                     console.log(item)
                 })
-            }
+            },
+            path() {
+                return window.location.pathname
+            },
+            // rute() {
+            //     const role = this.$page.props.user.role
+            //     return (role == 'admin') ? 'admin' : (role =='wali') ? 'wali' : ( role == 'siswa' ) ? 'siswa' : 'mapel' 
+            // }
         },
         created() {
             this.tes()
@@ -166,9 +182,6 @@
 </script>
 
 <style scoped>
-    #app > div.v-application--wrap > nav > div.v-navigation-drawer__content > div.v-list.v-sheet.v-sheet--shaped.theme--light.v-list--dense.v-list--nav > div:nth-child(3) > div > div > div.v-list-group__header.v-list-item.v-list-item--link.theme--light.aktif{
-        background: pink;
-    }
 
     .active {
         color: red!important;

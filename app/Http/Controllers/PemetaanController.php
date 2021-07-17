@@ -31,24 +31,37 @@ class PemetaanController extends Controller
                     ])->get();
                     $datas[] = ['id' => $peta->id, 'tema_id' => $peta->tema_id, 'subtema_id' => $peta->subtema_id, 'mapel_id' => $peta->mapel_id, 'mapel' => $peta->mapel, 'kd_id' => $peta->kd_id, 'kds' => $kds];
                 }
+                // dd('halo');
             } else {
-                $semester = $request->semester;
-                $kelas = $request->kelas;
-                $temas = 'App\Models\Tema'::where([
-                    ['kelas_id' ,'=', $request->kelas]
-                ])->whereHas('subtemas.pemetaans', function($q) use ($semester){
-                    $q->where('pemetaans.semester','=',$semester);
-                        // ->with('kd', function($k) {
-                        //     $k->where();
-                        // });
-                })->with('subtemas.pemetaans', function($p)  use ($kelas){
-                    $kd = $p->get('kd_id')[0]['kd_id'];
-                    $p->with('kd', function($k) use ($kd, $kelas) {
-                        $k->where('kds.mapel_id','=',$k->get('mapel_id')[0]['mapel_id'])->where('kds.kelas_id','=',$kelas);
-                    })->with('mapel');
-                    
-                })->get();
-                $datas = $temas;
+                if ( $request->q == 'nontema') {
+                    $petas = Pemetaan::where([
+                        ['tematik', '=', $request->tematik],
+                        ['mapel_id','=', $request->mapel],
+                        ['kelas_id','=',substr($request->rombel,6,1)],
+                        ['semester','=', $request->semester]
+                    ])->with('kd', function($k) use($request){
+                        $k->where('mapel_id', $request->mapel)->where('kelas_id', substr($request->rombel,6,1));
+                    })->with('mapel')->orderByRaw('LENGTH(tema_id) asc')->get();
+                    $datas= $petas;
+                } else {
+                    $semester = $request->semester;
+                    $kelas = $request->kelas;
+                    $temas = 'App\Models\Tema'::where([
+                        ['kelas_id' ,'=', $request->kelas]
+                    ])->whereHas('subtemas.pemetaans', function($q) use ($semester){
+                        $q->where('pemetaans.semester','=',$semester);
+                            // ->with('kd', function($k) {
+                            //     $k->where();
+                            // });
+                    })->with('subtemas.pemetaans', function($p)  use ($kelas){
+                        $kd = $p->get('kd_id')[0]['kd_id'];
+                        $p->with('kd', function($k) use ($kd, $kelas) {
+                            $k->where('kds.mapel_id','=',$k->get('mapel_id')[0]['mapel_id'])->where('kds.kelas_id','=',$kelas);
+                        })->with('mapel');
+                        
+                    })->get();
+                    $datas = $temas;
+                }
             }
             return response()->json(['success' => true, 'pemetaans' => $datas], 200);
         } catch (\Exception $e) {

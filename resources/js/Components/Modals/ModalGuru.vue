@@ -295,7 +295,7 @@
 	                    lists.push(ws[i])
 	                }
 	                this.newgurus = lists
-	                // console.log(lists)
+	                console.log(lists)
 	                // GetHeaders
 	                const a = workbook.Sheets[workbook.SheetNames[0]]
 	                const headers = this.getHeaders(a)

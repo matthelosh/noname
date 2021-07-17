@@ -150,6 +150,7 @@ class RombelController extends Controller
     {
         try {
             $rombel = Rombel::find($id);
+            // dd($rombel->siswas());
             $rombel->siswas()->detach();
             $rombel->delete();
 

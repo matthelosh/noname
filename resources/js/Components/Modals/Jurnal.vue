@@ -14,13 +14,13 @@
 							<p >Tema: {{ dialog.jurnal.tema.kode.substr(-1) }}. {{ dialog.jurnal.tema.label }}</p>
 							<p >Sub Tema: {{ dialog.jurnal.subtema.kode.substr(-1) }}. {{ dialog.jurnal.subtema.label }}</p>
 							<v-row class="mt-2">
-								<v-col v-if="jurnal.materi" v-for="mupel in mupels" cols="12" sm="6" :key="mupel.kode_mapel">
+								<v-col  v-for="mupel in mupels" cols="12" sm="6" :key="mupel.kode_mapel">
 									<div class="d-flex justify-between">
 									Materi {{ mupel.label }} KD: [<span v-for="kd in mupel.kds" :key="kd.kode_kd">{{ kd.kode_kd }},</span>]
 									<v-spacer></v-spacer>
-
+									<!-- {{ mupels }} -->
 									</div>
-									<tiptap-vuetify v-model="jurnal.materi[mupel.kode_mapel]['teks']" :extensions="extensions"></tiptap-vuetify>
+									<tiptap-vuetify v-if="Object.keys(jurnal.materi).length > 0" v-model="jurnal.materi[mupel.kode_mapel].teks" :extensions="extensions"></tiptap-vuetify>
 
 								</v-col>
 								<v-col cols="12">
@@ -42,7 +42,7 @@
 									<tiptap-vuetify v-model="jurnal.keterangan" :extensions="extensions"></tiptap-vuetify>
 								</v-col>
 								<v-col cols="12" class="d-flex justify-center">
-									<v-btn color="primary" rounded @click.stop="simpan">Simpan</v-btn>
+									<v-btn color="primary" rounded @click.stop="simpan" :disabled="loading" :loading="loading">Simpan</v-btn>
 								</v-col>
 							</v-row>
 
@@ -65,6 +65,7 @@
 		props: { dialog: Object },
 		components: { TiptapVuetify, Absensi },
 		data: () => ({
+			loading: false,
 			metodes: [
 				 'Project Based Learning',
 				'Daring',
@@ -75,6 +76,7 @@
 				'Lainya..',
 			],
 			jurnal: {
+				materi: {}
 			},
 			extensions : [  History,
               Blockquote,
@@ -99,13 +101,17 @@
 		}),
 		methods: {
 			simpan() {
-				this.jurnal.materi = JSON.stringify(this.jurnal.materi)
+				this.loading = true
+				let data = this.jurnal
+				data.materi  = JSON.stringify(this.jurnal.materi)
 				axios({
 					method: 'post',
 					url: '/dashboard/jurnal/create',
 					data: this.jurnal
 				}).then( res => {
 					console.log(res)
+					this.loading = false
+					this.$emit('hide')
 				}).catch( err => {
 					console.log( err )
 				})
@@ -137,6 +143,7 @@
 						mupels.forEach(mapel => {
 							mapels[mapel.kode_mapel] = { teks: '', label: mapel.label}
 						})
+						// this.jurnal.materi = mapels
 							this.jurnal = {
 								rombel_id: this.dialog.jurnal.pembelajaran.rombel.kode_rombel,
 								tema_id: this.dialog.jurnal.tema.kode,
@@ -144,7 +151,7 @@
 								pembelajaran_id: this.dialog.jurnal.pembelajaran.kode_pembelajaran,
 								tanggal: moment(new Date()).format('YYYY-MM-DD'),
 								metode: '',
-								materi: mapels,
+								materi : mapels,
 								media: '',
 								kegiatan: '',
 								tagihan: '',
@@ -155,17 +162,12 @@
 				}).catch( err => {
 					console.log( err )
 				})
-
-
-
-				
 			}
 		},
 		computed: {
 			mupels() {
-				var data = JSON.parse(this.dialog.jurnal.pembelajaran.mupels)
-				return data
-				// console.log(data)
+					var data = JSON.parse(this.dialog.jurnal.pembelajaran.mupels)
+					return data
 			},
 			color () {
 		        switch (this.value) {
